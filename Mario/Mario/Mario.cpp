@@ -22,6 +22,7 @@ int main(int argc, char* args[])
 
 		while (!quit)
 		{
+			Render();
 			quit = Update();
 		}
 	}
@@ -52,7 +53,6 @@ bool InitSDL()
 			return false;
 		}
 	}
-	return true;
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_renderer != nullptr)
 	{
@@ -68,6 +68,12 @@ bool InitSDL()
 		cout << "Render could not initilise. Error: " << SDL_GetError();
 		return false;
 	}
+	g_texture = LoadTextureFromFile("Images/test.bmp");
+	if (g_texture == nullptr)
+	{
+		return false;
+	}
+	return true;
 }
 void CLoseSDL()
 {
@@ -100,6 +106,11 @@ bool Update()
 	}
 	}
 	return false;
+	//clear the texture
+	FreeTexture();
+	//release the renderer
+	SDL_DestroyRenderer(g_renderer);
+	g_renderer = nullptr;
 }
 void Render()
 {
@@ -129,4 +140,12 @@ SDL_Texture* LoadTextureFromFile(string path)
 		cout << "Unable to create texture from surface. Error: " << IMG_GetError();
 	}
 	return p_texture;
+}
+void FreeTexture()
+{
+	if (g_texture != nullptr)
+	{
+		SDL_DestroyTexture(g_texture);
+		g_texture = nullptr;
+	}
 }
