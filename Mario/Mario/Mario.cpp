@@ -49,7 +49,7 @@ bool InitSDL()
 	else
 	{
 		//creates window
-		g_window = SDL_CreateWindow("Games Engine Creation",
+		g_window = SDL_CreateWindow("Mario",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH,
