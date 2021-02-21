@@ -3,6 +3,7 @@
 #define _TEXTURE2D_H
 #include <SDL.h>
 #include <string>
+#include "constants.h"
 #include "Commons.h"
 class Texture2D
 {
