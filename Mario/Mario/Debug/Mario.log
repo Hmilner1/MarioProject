@@ -1,4 +1,9 @@
-﻿  Mario.cpp
+﻿  GameScreen.cpp
+  GameScreenLevel1.cpp
+  GameScreenManager.cpp
+  Mario.cpp
   Texture2D.cpp
   Generating Code...
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Mario.cpp(80): warning C4715: 'InitSDL': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(34): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
   Mario.vcxproj -> C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe
