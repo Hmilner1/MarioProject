@@ -11,8 +11,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 	}
 	m_facing_direction = FACING_RIGHT;
-	//m_moving_left = false;
-	//m_moving_right = false;
+	m_moving_left = false;
+	m_moving_right = false;
 
 }
 Character::~Character()
@@ -34,6 +34,14 @@ void Character::Render()
 }
 void Character::Update(float deltaTime, SDL_Event e)
 {
+	if (m_moving_left)
+	{
+		MoveLeft(deltaTime);
+	}
+	else if (m_moving_right)
+	{
+		MoveRight(deltaTime);
+	}
 	SDL_PollEvent(&e);
 	switch (e.key.keysym.sym)
 	{
@@ -41,15 +49,15 @@ void Character::Update(float deltaTime, SDL_Event e)
 	{
 	case SDLK_LEFT:
 	{
-		m_position.x -= 1;
-		m_facing_direction = FACING_LEFT;
+		//m_position.x -= 1;
+		//m_facing_direction = FACING_LEFT;
 		//m_moving_left = true;
 		break;
 	}
 	case SDLK_RIGHT:
 	{
-		m_position.x += 1;
-		m_facing_direction = FACING_RIGHT;
+		//m_position.x += 1;
+		//m_facing_direction = FACING_RIGHT;
 		//m_moving_right = true;
 		break;
 	}
