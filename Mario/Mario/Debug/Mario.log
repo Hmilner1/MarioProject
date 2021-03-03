@@ -1,2 +1,13 @@
 ﻿  Character.cpp
+  GameScreen.cpp
+  GameScreenLevel1.cpp
+  Mario.cpp
+  Texture2D.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,42): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,42): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,57): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,57): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Mario.cpp(80): warning C4715: 'InitSDL': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(39): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
   Mario.vcxproj -> C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe
