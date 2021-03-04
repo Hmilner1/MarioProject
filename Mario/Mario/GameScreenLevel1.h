@@ -5,6 +5,7 @@
 #include"Commons.h"
 #include "Character.h"
 #include "CharacterMario.h"
+#include "CharacterLuigi.h"
 class  Texture2D;
 class Character;
 
@@ -20,7 +21,8 @@ public:
 
 private:
 	Texture2D* m_background_texture;
-	Character* my_character;
+	CharacterMario* Mario;
+	CharacterLuigi* Luigi;
 	
 	bool SetUpLevel();
 };

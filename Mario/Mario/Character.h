@@ -20,20 +20,22 @@ public:
 	virtual void AddGravity(float deltaTime);
 	void SetPosition(Vector2D new_position);
 	Vector2D GetPosition();
-private:
-	SDL_Renderer* m_renderer;
-	Vector2D m_position;
 	Texture2D* m_texture;
+	SDL_Renderer* m_renderer;
+private:
+	Vector2D m_position;
 	FACING m_facing_direction;
+
+protected:
 	bool m_moving_left;
 	bool m_moving_right;
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;
-
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
 	virtual void Jump();
+
 };
 #endif // !_CHARACTER_
 
