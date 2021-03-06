@@ -20,13 +20,17 @@ void GameScreenLevel1::Render()
 {
 	//allows background to draw 
 	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
-	Mario->Render();
 	Luigi->Render();
+	Mario->Render();
 }
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
+	if (Collisions::Instance()->Circle(Mario, Luigi))
+	{
+		cout << "Circle hit!" << endl;
+	}
 }
 
 bool GameScreenLevel1::SetUpLevel()

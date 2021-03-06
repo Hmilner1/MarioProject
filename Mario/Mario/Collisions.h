@@ -3,7 +3,9 @@
 #define _COLLISIONS_
 #include <SDL.h>
 #include "commons.h"
-class Collisions : public Character
+class Character;
+
+class Collisions
 {
 public:
 	~Collisions();

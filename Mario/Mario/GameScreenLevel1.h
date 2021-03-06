@@ -1,8 +1,9 @@
 #pragma once
 #ifndef _GAMESCREENLEVEL1_H
 #define _GAMESCREENLEVEL1_H
-#include"GameScreen.h"
-#include"Commons.h"
+#include "GameScreen.h"
+#include "Commons.h"
+#include "Collisions.h"
 #include "Character.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
