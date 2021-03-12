@@ -30,7 +30,6 @@ public:
 			m_texture->GetWidth(), m_texture->GetHeight());
 	}
 
-
 private:
 	Vector2D m_position;
 	FACING m_facing_direction;
