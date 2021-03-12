@@ -1,4 +1,5 @@
 ﻿  Character.cpp
+<<<<<<< Updated upstream
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(30,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(30,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   CharacterLuigi.cpp
@@ -18,4 +19,35 @@ C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(30,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating Code...
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(46): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
+=======
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  CharacterLuigi.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  CharacterMario.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Collisions.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameScreen.cpp
+  GameScreenLevel1.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameScreenManager.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  LevelMap.cpp
+  Mario.cpp
+  Texture2D.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,42): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,42): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,57): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Texture2D.cpp(55,57): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Mario.cpp(80): warning C4715: 'InitSDL': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(49): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
+  LINK : C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe not found or not built by the last incremental link; performing full link
+>>>>>>> Stashed changes
   Mario.vcxproj -> C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe
