@@ -10,14 +10,6 @@ CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2
 
 void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 {
-	if (m_moving_left)
-	{
-		MoveLeft(deltaTime);
-	}
-	else if (m_moving_right)
-	{
-		MoveRight(deltaTime);
-	}
 	SDL_PollEvent(&e);
 	switch (e.type)
 	{
@@ -49,5 +41,16 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		}
 		break;
 	}
+	if (m_moving_left == true)
+	{
+		MoveLeft(deltaTime);
+
+	}
+
+	else if (m_moving_right == true)
+	{
+		MoveRight(deltaTime);
+	}
+
 	Character::Update(deltaTime, e);
 }

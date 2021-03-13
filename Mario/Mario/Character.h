@@ -32,11 +32,11 @@ public:
 	}
 
 private:
-	Vector2D m_position;
 	FACING m_facing_direction;
 	LevelMap* m_current_level_map;
 
 protected:
+	Vector2D m_position;
 	bool m_moving_left;
 	bool m_moving_right;
 	bool m_jumping;

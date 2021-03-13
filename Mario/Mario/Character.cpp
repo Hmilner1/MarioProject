@@ -76,14 +76,14 @@ Vector2D Character::GetPosition()
 
 void Character::MoveLeft(float deltaTime)
 {
-	m_position.x -= deltaTime * MOVEMENTSPEED;
 	m_facing_direction = FACING_LEFT;
+	m_position.x -= MOVEMENTSPEED* deltaTime;
 }
 
 void Character::MoveRight(float deltaTime)
 {
-	m_position.x += deltaTime * MOVEMENTSPEED;
 	m_facing_direction = FACING_RIGHT;
+	m_position.x += MOVEMENTSPEED* deltaTime;
 }
 
 void Character::AddGravity(float deltaTime)

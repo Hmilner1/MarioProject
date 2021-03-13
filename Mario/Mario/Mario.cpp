@@ -125,5 +125,4 @@ void Render()
 	SDL_RenderClear(g_renderer);
 	game_screen_manager->Render();
 	SDL_RenderPresent(g_renderer);
-
 }

@@ -28,9 +28,14 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
-	if (Collisions::Instance()->Circle(Mario, Luigi))
+	//if (Collisions::Instance()->Circle(Mario, Luigi))
+	//{
+	//	cout << "Circle hit!" << endl;
+	//}
+
+	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), Luigi->GetCollisionBox()))
 	{
-		cout << "Circle hit!" << endl;
+		cout << "Box hit" << endl;
 	}
 }
 
