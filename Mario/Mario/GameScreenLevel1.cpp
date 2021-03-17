@@ -5,10 +5,11 @@
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer)
 {
 	m_renderer = renderer;
+	m_level_map = nullptr;
 	SetLevelMap();
 	SetUpLevel();
-	m_level_map = nullptr;
 }
+
 GameScreenLevel1::~GameScreenLevel1()
 {
 	delete m_background_texture;
@@ -119,5 +120,4 @@ void GameScreenLevel1::DoScreenshake()
 	m_screenshake = true;
 	m_shake_time = SHAKE_DURATION;
 	m_wobble = 0.0f;
-
 }
