@@ -21,14 +21,15 @@ public:
 	virtual void Update(float deltaTime, SDL_Event e);
 	virtual void AddGravity(float deltaTime);
 	void SetPosition(Vector2D new_position);
+	bool IsJumping() { return m_jumping; }
+	void CancelJump() { m_jumping = false; }
 	Vector2D GetPosition();
 	Texture2D* m_texture;
 	SDL_Renderer* m_renderer;
 	float GetCollisionRadius();
 	Rect2D GetCollisionBox() 
 	{
-		return Rect2D(m_position.x, m_position.y,
-			m_texture->GetWidth(), m_texture->GetHeight());
+		return Rect2D(m_position.x, m_position.y,m_texture->GetWidth(), m_texture->GetHeight());
 	}
 
 private:
