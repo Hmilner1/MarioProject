@@ -38,7 +38,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 {
 	//collision position variables
 	int centralX_position = (int)(m_position.x + (m_texture->GetWidth() * 0.5)) / TILE_WIDTH;
-	int foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
+	foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
 	//deal with gravity
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
@@ -122,4 +122,16 @@ float Character::GetCollisionRadius()
 void Character::SetAlive(bool isAlive)
 {
 	m_alive = isAlive;
+}
+
+void Character::Dead()
+{
+
+}
+
+void Character::hop()
+{
+		m_jump_force = HOP;
+		m_jumping = true;
+		m_can_jump = false;
 }

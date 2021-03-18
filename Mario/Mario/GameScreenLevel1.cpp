@@ -8,6 +8,7 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 	m_level_map = nullptr;
 	SetLevelMap();
 	SetUpLevel();
+	reset = false;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -123,6 +124,18 @@ void GameScreenLevel1::UpdatePowBlock()
 			Mario->CancelJump();
 		}
 	}
+	if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_pow_block->GetCollisionBox()) && m_pow_block->IsAvailable())
+	{
+		cout << "Box hit" << endl;
+
+		//collided while jumping
+		if (Luigi->IsJumping())
+		{
+			DoScreenshake();
+			m_pow_block->TakeHit();
+			Luigi->CancelJump();
+		}
+	}
 }
 
 void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
@@ -151,6 +164,14 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 			else
 			{
+				if (!m_enemies[i]->GetInjured())
+				{
+					if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Mario->GetCollisionBox()) && Mario->foot_position < m_enemies[i]->foot_position)
+					{
+						Mario->hop();
+						m_enemies[i]->TakeDamage();
+					}
+				}
 				if (Collisions::Instance()->Circle(m_enemies[i], Mario))
 				{
 					if (m_enemies[i]->GetInjured())
@@ -160,6 +181,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					else
 					{
 						//kill mario
+						
 					}
 				}
 			}
