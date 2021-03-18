@@ -33,20 +33,21 @@ public:
 	}
 
 private:
-	FACING m_facing_direction;
 	LevelMap* m_current_level_map;
 
 protected:
+	FACING m_facing_direction;
 	Vector2D m_position;
 	bool m_moving_left;
 	bool m_moving_right;
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;
+	float m_collision_radius;
+	float movement_speed;
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
 	virtual void Jump();
-	float m_collision_radius;
 };
 #endif // !_CHARACTER_
 

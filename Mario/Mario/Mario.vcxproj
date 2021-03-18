@@ -154,6 +154,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameScreenLevel1.cpp" />
     <ClCompile Include="GameScreenManager.cpp" />
+    <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="LevelMap.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="PowBlock.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenLevel1.h" />
     <ClInclude Include="GameScreenManager.h" />
+    <ClInclude Include="Koopa.h" />
     <ClInclude Include="LevelMap.h" />
     <ClInclude Include="PowBlock.h" />
     <ClInclude Include="Texture2D.h" />

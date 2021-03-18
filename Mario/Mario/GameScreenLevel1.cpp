@@ -68,7 +68,9 @@ bool GameScreenLevel1::SetUpLevel()
 	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 330), m_level_map);
 	//Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 330));
 	Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 330), m_level_map);
+	//loads PowBlock
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
+	//screen shake 
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
 }

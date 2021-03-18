@@ -26,6 +26,7 @@ public:
 
 private:
 	Texture2D* m_background_texture;
+	Texture2D* m_background;
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
 	LevelMap* m_level_map;
