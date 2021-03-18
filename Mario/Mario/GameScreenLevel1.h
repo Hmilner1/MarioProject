@@ -9,6 +9,8 @@
 #include "CharacterLuigi.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
+#include "Koopa.h"
+#include <vector>
 class  Texture2D;
 class Character;
 class PowBlock;
@@ -31,10 +33,13 @@ private:
 	CharacterLuigi* Luigi;
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
+	vector<Koopa*> m_enemies;
 	
 	bool SetUpLevel();
 	void SetLevelMap();
 	void DoScreenshake();
+	void UpdateEnemies(float deltaTime, SDL_Event e);
+	void CreateKoopa(Vector2D position, FACING direction, float speed);
 
 	bool m_screenshake;
 	float m_shake_time;

@@ -8,7 +8,6 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	Character::Update(deltaTime, e);
 	SDL_PollEvent(&e);
 	switch (e.type)
 	{
@@ -40,15 +39,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		}
 		break;
 	}
-
-	if (m_moving_left)
-	{
-		MoveLeft(deltaTime);
-	}
-	else if (m_moving_right)
-	{
-		MoveRight(deltaTime);
-	}
+	Character::Update(deltaTime, e);
 }
 
 

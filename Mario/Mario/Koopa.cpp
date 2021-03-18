@@ -62,7 +62,7 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 		m_moving_left = false;
 		//count down the injured time
 		m_injured_time -= deltaTime;
-		if (m_injured_time <= 0.0)
+		if (m_injured_time <= 0.0f)
 			FlipRightWayUp();
 	}
 }
@@ -86,7 +86,6 @@ void Koopa::Jump()
 
 void Koopa::FlipRightWayUp()
 {
-
 	if (m_facing_direction == FACING_LEFT)
 	{
 		m_facing_direction = FACING_RIGHT;
@@ -95,9 +94,26 @@ void Koopa::FlipRightWayUp()
 	{
 		m_facing_direction = FACING_LEFT;
 	}
-
 	m_injured = false;
 	Jump();
 }
+
+bool Koopa::GetInjured()
+{
+	return m_injured;
+}
+
+void Koopa::MoveLeft(float deltaTime)
+{
+	m_facing_direction = FACING_LEFT;
+	m_position.x -= m_movement_speed * deltaTime;
+}
+
+void Koopa::MoveRight(float deltaTime)
+{
+	m_facing_direction = FACING_RIGHT;
+	m_position.x += m_movement_speed * deltaTime;
+}
+
 
 

@@ -11,8 +11,11 @@ public:
 	void Jump();
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
+	bool GetInjured();
 private:
 	void FlipRightWayUp();
+	void MoveRight(float deltaTime) override;
+	void MoveLeft(float deltaTime) override;
 
 	float m_single_sprite_w;
 	float m_single_sprite_h;
