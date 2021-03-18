@@ -1,16 +1,11 @@
 #include "CharacterLuigi.h"
-#include "Character.h"
-#include "Texture2D.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map)
 {
-
-
 }
 
 void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 {
-	SDL_PollEvent(&e);
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -18,9 +13,11 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		{
 		case SDLK_a:
 			m_moving_left = true;
+			m_moving_right = false;
 			break;
 		case SDLK_d:
 			m_moving_right = true;
+			m_moving_left = false;
 			break;
 		case SDLK_w:
 			if (m_can_jump)
@@ -41,16 +38,13 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		}
 		break;
 	}
-	if (m_moving_left == true)
+	if (m_moving_left)
 	{
 		MoveLeft(deltaTime);
-
 	}
-
-	else if (m_moving_right == true)
+	else if (m_moving_right)
 	{
 		MoveRight(deltaTime);
 	}
-
 	Character::Update(deltaTime, e);
 }

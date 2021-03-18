@@ -8,7 +8,6 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	SDL_PollEvent(&e);
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -16,9 +15,11 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		{
 		case SDLK_LEFT:
 			m_moving_left = true;
+			m_moving_right = false;
 			break;
 		case SDLK_RIGHT:
 			m_moving_right = true;
+			m_moving_left = false;
 			break;
 		case SDLK_UP:
 			if (m_can_jump)
@@ -37,7 +38,14 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 			m_moving_right = false;
 			break;
 		}
-		break;
+	}
+	if (m_moving_left)
+	{
+		MoveLeft(deltaTime);
+	}
+	else if (m_moving_right)
+	{
+		MoveRight(deltaTime);
 	}
 	Character::Update(deltaTime, e);
 }

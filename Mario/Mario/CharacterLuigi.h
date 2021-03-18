@@ -2,9 +2,6 @@
 #ifndef _CHARACTER_Luigi_
 #define _CHARACTER_Luigi_
 #include "Character.h"
-#include "Texture2D.h"
-
-
 class CharacterLuigi : public Character
 {
 public:

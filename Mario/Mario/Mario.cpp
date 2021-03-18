@@ -23,11 +23,10 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		bool quit = false;
 		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
 		//set the time
 		g_old_time = SDL_GetTicks();
-
+		bool quit = false;
 		while (!quit)
 		{
 			Render();
@@ -81,13 +80,15 @@ bool InitSDL()
 
 void CLoseSDL()
 {
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
-	IMG_Quit();
-	SDL_Quit();
 	//destroy the game screen manager
 	delete game_screen_manager;
 	game_screen_manager = nullptr;
+	g_window = nullptr;
+	SDL_DestroyWindow(g_window);
+	IMG_Quit();
+	SDL_Quit();
+	SDL_DestroyRenderer(g_renderer);
+	g_renderer = nullptr;
 
 }
 
@@ -96,27 +97,16 @@ bool Update()
 	Uint32 new_time = SDL_GetTicks();
 	//event handler 
 	SDL_Event e;
-	//see the events that have happened 
 	SDL_PollEvent(&e);
 	switch (e.type)
 	{
 	case SDL_QUIT:
 		return true;
 		break;
-	
-	case SDL_KEYUP:
-	{
-		switch (e.key.keysym.sym)
-	case SDLK_q:
-		return true;
-		break;
-	}
 	}
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
 	return false;
-	SDL_DestroyRenderer(g_renderer);
-	g_renderer = nullptr;
 }
 
 void Render()
