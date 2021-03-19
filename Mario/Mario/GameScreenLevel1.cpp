@@ -181,6 +181,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					else
 					{
 						//kill mario
+						//Mario->Dead();
 						
 					}
 				}

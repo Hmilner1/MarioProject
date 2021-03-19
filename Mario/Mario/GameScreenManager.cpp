@@ -38,7 +38,6 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		tempScreen = new GameScreenLevel1(m_renderer);
 		m_current_screen = (GameScreen*)tempScreen;
 		tempScreen = nullptr;
-	default:;
+	default:
 	}
-
 }

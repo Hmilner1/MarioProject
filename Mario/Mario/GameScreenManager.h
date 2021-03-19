@@ -16,11 +16,13 @@ public:
 	void Render();
 	void Update(float deltaTime, SDL_Event e);
 	void ChangeScreen(SCREENS new_Screen);
+	GameScreen* m_current_screen;
+
 
 
 private:
 	SDL_Renderer* m_renderer;
-	GameScreen* m_current_screen;
+
 };
 #endif
 

@@ -47,6 +47,5 @@ private:
 	float m_shake_time;
 	float m_wobble;
 	float m_background_yPos;
-
 };
 #endif

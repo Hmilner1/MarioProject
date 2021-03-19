@@ -31,7 +31,7 @@ void Character::Render()
 	}
 	else
 	{
-		m_texture->Render(m_position, SDL_FLIP_HORIZONTAL);
+			m_texture->Render(m_position, SDL_FLIP_HORIZONTAL);
 	}
 }
 void Character::Update(float deltaTime, SDL_Event e)
@@ -126,7 +126,7 @@ void Character::SetAlive(bool isAlive)
 
 void Character::Dead()
 {
-
+	m_alive = false;
 }
 
 void Character::hop()

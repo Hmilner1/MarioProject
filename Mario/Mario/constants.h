@@ -13,4 +13,4 @@
 #define HOP 900.0f
 #define GRAVITY 500.0f
 #define SHAKE_DURATION 0.25f
-#define INJURED_TIME 2.5f
+#define INJURED_TIME 20.5f

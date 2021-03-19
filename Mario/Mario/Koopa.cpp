@@ -63,7 +63,9 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 		//count down the injured time
 		m_injured_time -= deltaTime;
 		if (m_injured_time <= 0.0f)
+		{
 			FlipRightWayUp();
+		}
 	}
 }
 
