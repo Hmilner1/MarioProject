@@ -38,6 +38,7 @@ public:
 	bool m_moving_left;
 	bool m_moving_right;
 	int foot_position;
+	int centralX_position;
 private:
 	LevelMap* m_current_level_map;
 

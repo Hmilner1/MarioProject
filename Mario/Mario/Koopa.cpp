@@ -23,6 +23,7 @@ void Koopa::Render()
 	{
 		left = m_single_sprite_w;
 	}
+
 	SDL_Rect portion_of_sprite = { left, 0, m_single_sprite_w, m_single_sprite_h };
 
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
@@ -32,15 +33,15 @@ void Koopa::Render()
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
 	}
 	else
-	{
+		{
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
 	}
 }
 
 void Koopa::Update(float deltaTime, SDL_Event e)
 {
-	//use the code within the base class
 	Character::Update(deltaTime, e);
+	//use the code within the base class
 	if (!m_injured)
 	{
 		//enemy is not injured so move
@@ -55,7 +56,7 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 			m_moving_left = false;
 		}
 	}
-	else
+	else if(m_injured)
 	{
 		//we should not be moving when injured
 		m_moving_right = false;
@@ -72,32 +73,30 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 void Koopa::TakeDamage()
 {
 	m_injured = true;
-	m_injured_time = INJURED_TIME;
 	Jump();
+	m_injured_time = INJURED_TIME;
 }
 
 void Koopa::Jump()
 {
-	if (!m_jumping)
-	{
-		m_jump_force = INITIAL_JUMP_FORCE_SMALL;
-		m_jumping = true;
-		m_can_jump = false;
-	}
+	m_jumping = true;
+	m_can_jump = false;
+	m_jump_force = INITIAL_JUMP_FORCE_SMALL;
 }
 
 void Koopa::FlipRightWayUp()
 {
+	cout << "called" << endl;
 	if (m_facing_direction == FACING_LEFT)
 	{
 		m_facing_direction = FACING_RIGHT;
 	}
-	else
+	else if (m_facing_direction == FACING_RIGHT)
 	{
 		m_facing_direction = FACING_LEFT;
 	}
-	m_injured = false;
 	Jump();
+	m_injured = false;
 }
 
 bool Koopa::GetInjured()

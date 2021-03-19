@@ -42,7 +42,6 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	UpdatePowBlock(); 
 	UpdateEnemies(deltaTime, e);
 	
-	
 	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), Luigi->GetCollisionBox()))
 	{
 		//cout << "Box hit" << endl;
@@ -165,7 +164,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			{
 				if (!m_enemies[i]->GetInjured())
 				{
-					if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Mario->GetCollisionBox()) && Mario->foot_position < m_enemies[i]->foot_position)
+					if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
 					{
 						Mario->hop();
 						m_enemies[i]->TakeDamage();
@@ -180,8 +179,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					else
 					{
 						//kill mario
-						//Mario->Dead();
-						
+						Mario->Dead();
 					}
 				}
 			}

@@ -20,8 +20,8 @@ private:
 	float m_single_sprite_w;
 	float m_single_sprite_h;
 	float m_movement_speed;
+	float m_injured_time;
 	bool m_injured;
-	bool m_injured_time;
 };
 #endif
 
