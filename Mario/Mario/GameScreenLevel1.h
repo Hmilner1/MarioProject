@@ -26,7 +26,6 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
-	bool reset;
 
 private:
 	Texture2D* m_background_texture;
