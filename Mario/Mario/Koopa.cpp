@@ -116,5 +116,21 @@ void Koopa::MoveRight(float deltaTime)
 	m_position.x += m_movement_speed * deltaTime;
 }
 
+void Koopa::Turn()
+{
+	if (m_facing_direction == FACING_LEFT)
+	{
+		m_facing_direction = FACING_RIGHT;
+		m_moving_right = true;
+		m_moving_left = false;
+	}
+	else if (m_facing_direction == FACING_RIGHT)
+	{
+		m_facing_direction = FACING_LEFT;
+		m_moving_right = false;
+		m_moving_left = true;
+	}
+}
+
 
 

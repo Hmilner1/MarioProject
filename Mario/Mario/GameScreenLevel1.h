@@ -8,6 +8,7 @@
 #include "Character.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
+#include "Coin.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include "Koopa.h"
@@ -35,12 +36,15 @@ private:
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
 	vector<Koopa*> m_enemies;
+	vector<Coin*> m_coin;
 	
 	bool SetUpLevel();
 	void SetLevelMap();
 	void DoScreenshake();
 	void UpdateEnemies(float deltaTime, SDL_Event e);
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
+	void CreateCoin(Vector2D position);
+	void UpdateCoin(float deltaTime, SDL_Event e);
 
 	bool m_screenshake;
 	float m_shake_time;

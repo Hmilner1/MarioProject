@@ -12,6 +12,7 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	bool GetInjured();
+	void Turn();
 private:
 	void FlipRightWayUp();
 	void MoveRight(float deltaTime) override;

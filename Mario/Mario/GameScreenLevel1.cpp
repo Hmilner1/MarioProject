@@ -21,6 +21,7 @@ GameScreenLevel1::~GameScreenLevel1()
 	delete m_pow_block;
 	m_pow_block = nullptr;
 	m_enemies.clear();
+	m_coin.clear();
 }
 
 void GameScreenLevel1::Render()
@@ -30,6 +31,10 @@ void GameScreenLevel1::Render()
 		m_enemies[i]->Render();
 	}
 	//calls the class render function
+	for (int i = 0; i < m_coin.size(); i++)
+	{
+		m_coin[i]->Render();
+	}
 	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	Mario->Render();
 	m_pow_block->Render();
@@ -41,6 +46,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	Luigi->Update(deltaTime, e);
 	UpdatePowBlock(); 
 	UpdateEnemies(deltaTime, e);
+	UpdateCoin(deltaTime, e);
 	
 	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), Luigi->GetCollisionBox()))
 	{
@@ -77,8 +83,13 @@ bool GameScreenLevel1::SetUpLevel()
 	//loads koopas
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
+
+	CreateCoin(Vector2D(365, 32));
+	CreateCoin(Vector2D(395, 32));
+	CreateCoin(Vector2D(425, 32));
 	//loads PowBlock
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
+
 	//screen shake 
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
@@ -152,11 +163,16 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 			//now do the update
 			m_enemies[i]->Update(deltaTime, e);
+			if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) ||
+				m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))
+			{
+				m_enemies[i]->Turn();
+			}
 
 			//check to see if enemy collides with player
 			if ((m_enemies[i]->GetPosition().y > 300.0f ||
 				m_enemies[i] -> GetPosition().y <= 64.0f) && (m_enemies[i]->GetPosition().x < 64.0f ||
-				m_enemies[i]->GetPosition().x >SCREEN_WIDTH - 96.0f))
+				m_enemies[i]->GetPosition().x >= SCREEN_WIDTH - 96.0f))
 			{
 				//ignore collisions if behind pipe
 			}
@@ -169,8 +185,13 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						Mario->hop();
 						m_enemies[i]->TakeDamage();
 					}
+					else if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
+					{
+						Luigi->hop();
+						m_enemies[i]->TakeDamage();
+					}
 				}
-				if (Collisions::Instance()->Circle(m_enemies[i], Mario))
+				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Mario->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
@@ -180,6 +201,18 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					{
 						//kill mario
 						Mario->Dead();
+					}
+				}
+				else if(Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				{
+					if (m_enemies[i]->GetInjured())
+					{
+						m_enemies[i]->SetAlive(false);
+					}
+					else
+					{
+						//kill mario
+						Luigi->Dead();
 					}
 				}
 			}
@@ -194,6 +227,34 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		if (enemyIndexToDelete != -1)
 		{
 			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete);
+		}
+	}
+}
+
+void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
+{
+	if (!m_coin.empty())
+	{
+		int coinIndexToDelete = -1;
+		for (unsigned int i = 0; i < m_coin.size(); i++)
+		{
+			m_coin[i]->Update(deltaTime, e);
+			if (Collisions::Instance()->Box(m_coin[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+			{
+				m_coin[i]->SetAlive(false);
+
+
+				if (!m_coin[i]->GetAlive())
+				{
+					cout << "Collected" << endl;
+					coinIndexToDelete = i;
+				}
+				//remove dead enemies -1 each update
+				if (coinIndexToDelete != -1)
+				{
+					m_coin.erase(m_coin.begin() + coinIndexToDelete);
+				}
+			}
 		}
 	}
 }
@@ -214,4 +275,10 @@ void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float sp
 {
 	Koopa* koopa = new Koopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed);
 	m_enemies.push_back(koopa);
+}
+
+void GameScreenLevel1::CreateCoin(Vector2D position)
+{
+	Coin* coin = new Coin(m_renderer, "Images/Coin.png", m_level_map, position);
+	m_coin.push_back(coin);
 }

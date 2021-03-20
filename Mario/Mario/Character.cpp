@@ -133,7 +133,7 @@ void Character::Dead()
 
 void Character::hop()
 {
-		m_jump_force = HOP;
-		m_jumping = true;
-		m_can_jump = false;
+	m_jump_force = HOP;
+	m_jumping = true;
+	m_can_jump = false;
 }
