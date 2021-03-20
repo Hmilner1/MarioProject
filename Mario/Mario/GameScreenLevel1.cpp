@@ -22,6 +22,7 @@ GameScreenLevel1::~GameScreenLevel1()
 	m_pow_block = nullptr;
 	m_enemies.clear();
 	m_coin.clear();
+	m_goombas.clear();
 }
 
 void GameScreenLevel1::Render()
@@ -35,6 +36,10 @@ void GameScreenLevel1::Render()
 	{
 		m_coin[i]->Render();
 	}
+	for (int i = 0; i < m_goombas.size(); i++)
+	{
+		m_goombas[i]->Render();
+	}
 	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	Mario->Render();
 	m_pow_block->Render();
@@ -44,8 +49,13 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
+	for (int i = 0; i < m_goombas.size(); i++)
+	{
+		m_goombas[i]->Update(deltaTime, e);
+	}
 	UpdatePowBlock(); 
 	UpdateEnemies(deltaTime, e);
+	UpdateGoomba(deltaTime, e);
 	UpdateCoin(deltaTime, e);
 	
 	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), Luigi->GetCollisionBox()))
@@ -83,6 +93,9 @@ bool GameScreenLevel1::SetUpLevel()
 	//loads koopas
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
+
+	CreateGoomba(Vector2D(30, 32), FACING_RIGHT, 20.0f);
+	CreateGoomba(Vector2D(-30, 32), FACING_RIGHT, 20.0f);
 
 	CreateCoin(Vector2D(365, 32));
 	CreateCoin(Vector2D(395, 32));
@@ -168,7 +181,6 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			{
 				m_enemies[i]->Turn();
 			}
-
 			//check to see if enemy collides with player
 			if ((m_enemies[i]->GetPosition().y > 300.0f ||
 				m_enemies[i] -> GetPosition().y <= 64.0f) && (m_enemies[i]->GetPosition().x < 64.0f ||
@@ -264,6 +276,90 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 	}
 }
 
+void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
+{
+	if (!m_goombas.empty())
+	{
+		int enemyIndexToDelete = -1;
+		for (unsigned int i = 0; i < m_goombas.size(); i++)
+		{
+			//check if the enemy is on the bottom row of tiles
+			if (m_goombas[i]->GetPosition().y > 300.0f)
+			{
+				//is the enemy off screen to the left / right?
+				if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||
+					m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))m_goombas[i]->SetAlive(false);
+			}
+			//now do the update
+			m_goombas[i]->Update(deltaTime, e);
+			if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||
+				m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))
+			{
+				m_goombas[i]->Turn();
+			}
+			//check to see if enemy collides with player
+			if ((m_goombas[i]->GetPosition().y > 300.0f ||
+				m_goombas[i]->GetPosition().y <= 64.0f) && (m_goombas[i]->GetPosition().x < 64.0f ||
+					m_goombas[i]->GetPosition().x >= SCREEN_WIDTH - 96.0f))
+			{
+				//ignore collisions if behind pipe
+			}
+			else
+			{
+				if (!m_goombas[i]->GetInjured())
+				{
+					if (Mario->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Mario))
+					{
+						Mario->hop();
+						m_goombas[i]->TakeDamage();
+						if (m_goombas[i]->GetInjured())
+						{
+							Score = Score + 200;
+							m_goombas[i]->SetAlive(false);
+							cout << Score << endl;
+							cout << "ded" << endl;
+							enemyIndexToDelete = i;
+							if (enemyIndexToDelete != -1)
+							{
+								m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
+							}
+						}
+						else
+						{
+							//kill mario
+							Mario->Dead();
+						}
+					}
+					else if (Luigi->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Luigi))
+					{
+			
+						Luigi->hop();
+						m_goombas[i]->TakeDamage();
+						if (m_goombas[i]->GetInjured())
+						{
+							Score = Score + 200;
+							m_goombas[i]->SetAlive(false);
+							cout << Score << endl;
+							cout << "ded" << endl;
+							enemyIndexToDelete = i;
+							if (enemyIndexToDelete != -1)
+							{
+								m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
+							}
+						}
+						else
+						{
+							//kill mario
+							Luigi->Dead();
+						}
+					}
+				}
+				
+			}
+		}
+	}
+}
+
 void GameScreenLevel1::DoScreenshake()
 {
 	m_screenshake = true;
@@ -286,4 +382,10 @@ void GameScreenLevel1::CreateCoin(Vector2D position)
 {
 	Coin* coin = new Coin(m_renderer, "Images/Coin.png", m_level_map, position);
 	m_coin.push_back(coin);
+}
+
+void GameScreenLevel1::CreateGoomba(Vector2D position, FACING direction, float speed)
+{
+	Goomba* goomba = new Goomba(m_renderer, "Images/Goomba.png", m_level_map, position, direction, speed);
+	m_goombas.push_back(goomba);
 }

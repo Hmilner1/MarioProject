@@ -8,10 +8,11 @@
 #include "Character.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
+#include "Koopa.h"
+#include "Goomba.h"
 #include "Coin.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
-#include "Koopa.h"
 #include <vector>
 class  Texture2D;
 class Character;
@@ -36,6 +37,7 @@ private:
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
 	vector<Koopa*> m_enemies;
+	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
 	
 	bool SetUpLevel();
@@ -45,6 +47,8 @@ private:
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
 	void CreateCoin(Vector2D position);
 	void UpdateCoin(float deltaTime, SDL_Event e);
+	void CreateGoomba(Vector2D position, FACING direction, float speed);
+	void UpdateGoomba(float deltaTime, SDL_Event e);
 
 	bool m_screenshake;
 	float m_shake_time;
