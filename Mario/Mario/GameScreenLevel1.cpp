@@ -195,7 +195,9 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						Score = Score + 200;
 						m_enemies[i]->SetAlive(false);
+						cout << Score << endl;
 					}
 					else
 					{
@@ -207,7 +209,9 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						Score = Score + 200;
 						m_enemies[i]->SetAlive(false);
+						cout << Score << endl;
 					}
 					else
 					{
@@ -239,10 +243,11 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 		for (unsigned int i = 0; i < m_coin.size(); i++)
 		{
 			m_coin[i]->Update(deltaTime, e);
-			if (Collisions::Instance()->Box(m_coin[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+			if (Collisions::Instance()->Circle(m_coin[i], Luigi) || (Collisions::Instance()->Circle(m_coin[i], Mario)))
 			{
+				Score = Score + 100;
 				m_coin[i]->SetAlive(false);
-
+				cout << Score << endl;
 
 				if (!m_coin[i]->GetAlive())
 				{
@@ -273,7 +278,7 @@ void GameScreenLevel1::DoScreenshake()
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa* koopa = new Koopa(m_renderer, "Images/Gumba.png", m_level_map, position, direction, speed);
+	Koopa* koopa = new Koopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed);
 	m_enemies.push_back(koopa);
 }
 
