@@ -273,7 +273,7 @@ void GameScreenLevel1::DoScreenshake()
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa* koopa = new Koopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed);
+	Koopa* koopa = new Koopa(m_renderer, "Images/Gumba.png", m_level_map, position, direction, speed);
 	m_enemies.push_back(koopa);
 }
 
