@@ -6,6 +6,7 @@
 #include "Texture2D.h"
 #include "Commons.h"
 #include"GameScreenManager.h"
+#include <SDL_ttf.h>
 using namespace std;
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
@@ -77,8 +78,6 @@ bool InitSDL()
 			return false;
 		}
 	}
-
-
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_renderer != nullptr)
 	{

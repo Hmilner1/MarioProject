@@ -14,6 +14,7 @@
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include <vector>
+#include <SDL_ttf.h>
 class  Texture2D;
 class Character;
 class PowBlock;
