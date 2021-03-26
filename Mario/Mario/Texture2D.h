@@ -25,9 +25,9 @@ public:
 	{
 		return m_height;
 	}
+	SDL_Renderer* m_renderer;
 		
 private:
-	SDL_Renderer* m_renderer;
 	SDL_Texture* m_texture;
 
 	int m_width;
