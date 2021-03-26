@@ -2,11 +2,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "constants.h"
 #include "Texture2D.h"
 #include "Commons.h"
 #include"GameScreenManager.h"
-#include <SDL_ttf.h>
 using namespace std;
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
@@ -78,6 +78,10 @@ bool InitSDL()
 			return false;
 		}
 	}
+	if (TTF_Init() == -1)
+	{
+		cout << "Error" << endl;
+	}
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_renderer != nullptr)
 	{
@@ -93,7 +97,6 @@ bool InitSDL()
 		cout << "Render could not initilise. Error: " << SDL_GetError();
 		return false;
 	}
-
 }
 
 void CLoseSDL()
@@ -105,6 +108,7 @@ void CLoseSDL()
 	SDL_DestroyWindow(g_window);
 	IMG_Quit();
 	SDL_Quit();
+	TTF_Quit();
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
 	//clear up music

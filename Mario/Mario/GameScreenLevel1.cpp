@@ -86,6 +86,9 @@ bool GameScreenLevel1::SetUpLevel()
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 		return false;
 	}
+	
+	TTF_OpenFont("Retro", 20);
+
 	//Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 330));
 	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 330), m_level_map);
 	//Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 330));
