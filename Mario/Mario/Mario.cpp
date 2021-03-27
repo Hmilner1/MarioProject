@@ -7,7 +7,7 @@
 #include "Texture2D.h"
 #include "Commons.h"
 #include"GameScreenManager.h"
-#include "GameScreenLevel1.h"
+//#include "GameScreenLevel1.h"
 using namespace std;
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
@@ -28,7 +28,7 @@ int main(int argc, char* args[])
 	if (InitSDL())
 	{
 		//game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
-		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
+		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
 		LoadMusic("Music/Mario.mp3");
 		if (Mix_PlayingMusic() == 0)
 		{
