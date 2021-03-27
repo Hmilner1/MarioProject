@@ -20,6 +20,7 @@ void CLoseSDL();
 bool Update();
 void Render();
 void LoadMusic(string path);
+void LoadText();
 
 
 int main(int argc, char* args[])
@@ -96,6 +97,7 @@ bool InitSDL()
 		cout << "Render could not initilise. Error: " << SDL_GetError();
 		return false;
 	}
+
 }
 
 void CLoseSDL()
@@ -148,8 +150,12 @@ void Render()
 	textRect.y = 0;
 	SDL_QueryTexture(textTex, NULL, NULL, &textRect.w, &textRect.h);
 	SDL_RenderCopy(g_renderer, textTex, NULL, &textRect);
-
 	SDL_RenderPresent(g_renderer);
+
+	SDL_FreeSurface(text);
+	text = nullptr;
+	SDL_DestroyTexture(textTex);
+	textTex = nullptr;
 }
 
 void LoadMusic(string path)
@@ -160,3 +166,5 @@ void LoadMusic(string path)
 		cout << "Failed to load music. Error: " << Mix_GetError() << endl;
 	}
 }
+
+
