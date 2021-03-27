@@ -259,6 +259,7 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 			{
 				Score = Score + 100;
 				m_coin[i]->SetAlive(false);
+				//Mix_PlayMusic(g_music, -1);
 				cout << Score << endl;
 
 				if (!m_coin[i]->GetAlive())
@@ -389,3 +390,4 @@ void GameScreenLevel1::CreateGoomba(Vector2D position, FACING direction, float s
 	Goomba* goomba = new Goomba(m_renderer, "Images/Goomba.png", m_level_map, position, direction, speed);
 	m_goombas.push_back(goomba);
 }
+

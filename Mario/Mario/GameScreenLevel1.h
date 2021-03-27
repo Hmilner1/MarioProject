@@ -14,7 +14,7 @@
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include <vector>
-#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 class  Texture2D;
 class Character;
 class PowBlock;
@@ -42,6 +42,7 @@ private:
 	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
 	
+
 	
 	bool SetUpLevel();
 	void SetLevelMap();

@@ -113,7 +113,6 @@ void CLoseSDL()
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
 	//clear up music
-
 	Mix_FreeMusic(g_music);
 	g_music = nullptr;
 
@@ -141,21 +140,8 @@ void Render()
 	SDL_SetRenderDrawColor(g_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(g_renderer);
 	game_screen_manager->Render();
-	TTF_Font* Retro;
-	Retro = TTF_OpenFont("Retro.ttf", 20);
-	SDL_Surface* text = TTF_RenderText_Solid(Retro, "Text Test", { 0,0,0 });
-	SDL_Texture* textTex = SDL_CreateTextureFromSurface(g_renderer, text);
-	SDL_Rect textRect;
-	textRect.x = 0;
-	textRect.y = 0;
-	SDL_QueryTexture(textTex, NULL, NULL, &textRect.w, &textRect.h);
-	SDL_RenderCopy(g_renderer, textTex, NULL, &textRect);
 	SDL_RenderPresent(g_renderer);
 
-	SDL_FreeSurface(text);
-	text = nullptr;
-	SDL_DestroyTexture(textTex);
-	textTex = nullptr;
 }
 
 void LoadMusic(string path)
