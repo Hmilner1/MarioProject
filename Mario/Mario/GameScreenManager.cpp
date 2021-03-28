@@ -1,7 +1,5 @@
 #include "GameScreenManager.h"
-#include "GameScreen.h"
-#include "GameScreenLevel1.h"
-#include "StartLevel.h"
+
 
 GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen)
 {
@@ -24,13 +22,20 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e)
 {
 	m_current_screen->Update(deltaTime, e);
 
+	if (m_current_screen->NextScreen() != REPEATSCREEN)
+	{
+		ChangeScreen(m_current_screen->NextScreen());
+	}
 }
 void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 {
+	
 	if (m_current_screen != nullptr)
 	{
 		delete m_current_screen;
 	}
+
+	StartLevel* tempScreen;
 
 	switch (new_Screen)
 	{
@@ -42,12 +47,11 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		break;
 
 	case SCREEN_LEVEL1:
-		GameScreenLevel1* Level1;
-		Level1 = new GameScreenLevel1(m_renderer);
-		m_current_screen = (GameScreen*)Level1;
-		Level1 = nullptr;
+		GameScreenLevel1* tempscreen;
+		tempscreen = new GameScreenLevel1(m_renderer);
+		m_current_screen = (GameScreen*)tempscreen;
+		tempscreen = nullptr;
 		break;
-	default:
-		break;
-	}
+		}
+	
 }

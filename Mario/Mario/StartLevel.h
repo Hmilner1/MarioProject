@@ -14,7 +14,6 @@ class StartLevel : GameScreen
 public:
 	StartLevel(SDL_Renderer* renderer);
 	~StartLevel();
-	GameScreenManager* game_screen_manager;
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 

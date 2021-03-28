@@ -3,6 +3,9 @@
 #define  _GAMESCREENMANAGER_H
 #include<SDL.h>
 #include"Commons.h"
+#include "GameScreen.h"
+#include "StartLevel.h"
+#include "GameScreenLevel1.h"
 class GameScreen;
 
 class GameScreenManager
@@ -17,7 +20,7 @@ public:
 	void Update(float deltaTime, SDL_Event e);
 	void ChangeScreen(SCREENS new_Screen);
 	GameScreen* m_current_screen;
-
+	
 
 
 private:

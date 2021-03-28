@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _GAMESCREEN_H
 #define _GAMESCREEN_H
+#include "Commons.h"
 #include <SDL.h>
 class GameScreen
 {
@@ -12,7 +13,9 @@ public:
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
 	SDL_Renderer* m_renderer;
-	
+
+	SCREENS screen;
+	SCREENS NextScreen() { return screen; }
 
 private:
 

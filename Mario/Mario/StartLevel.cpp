@@ -25,7 +25,7 @@ void StartLevel::Update(float deltaTime, SDL_Event e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_SPACE:
-			game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
+			screen = SCREEN_LEVEL1;
 			break;
 		default:
 			break;
