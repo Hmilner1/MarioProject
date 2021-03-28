@@ -12,6 +12,7 @@ public:
 	void TakeDamage();
 	void Turn();
 	bool GetInjured();
+	void Jump();
 
 private:
 	void MoveRight(float deltaTime) override;

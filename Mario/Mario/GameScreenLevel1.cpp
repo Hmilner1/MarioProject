@@ -377,6 +377,13 @@ void GameScreenLevel1::DoScreenshake()
 	{
 		m_enemies[i]->TakeDamage();
 	}
+	for (unsigned int i = 0; i < m_goombas.size(); i++)
+	{
+		m_goombas[i]->Jump();
+		Score = Score + 200;
+		cout << Score << endl;
+		m_goombas[i]->SetAlive(false);
+	}
 }
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)

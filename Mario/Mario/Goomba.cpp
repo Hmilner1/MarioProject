@@ -94,3 +94,10 @@ void Goomba::MoveRight(float deltaTime)
 	m_facing_direction = FACING_RIGHT;
 	m_position.x += m_movement_speed * deltaTime;
 }
+
+void Goomba::Jump()
+{
+	m_jumping = true;
+	m_can_jump = false;
+	m_jump_force = INITIAL_JUMP_FORCE_SMALL;
+}
