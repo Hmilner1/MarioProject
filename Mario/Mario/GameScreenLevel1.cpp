@@ -367,7 +367,7 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel1::DoScreenshake()
+void GameScreenLevel1::DoScreenshake() 
 {
 	m_screenshake = true;
 	m_shake_time = SHAKE_DURATION;

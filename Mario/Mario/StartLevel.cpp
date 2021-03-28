@@ -18,6 +18,7 @@ void StartLevel::Render()
 {
 	m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
 }
+
 void StartLevel::Update(float deltaTime, SDL_Event e)
 {
 	switch (e.type) {
@@ -31,13 +32,12 @@ void StartLevel::Update(float deltaTime, SDL_Event e)
 			break;
 		}
 	}
-
 }
 
 bool StartLevel::SetUpLevel()
 {
 	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
+	if (!m_background_texture->LoadFromFile("Images/Goomba.png"))
 	{
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 		return false;
