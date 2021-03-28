@@ -45,6 +45,7 @@ void GameScreenLevel1::Render()
 	m_pow_block->Render();
 	Luigi->Render();
 }
+
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	Mario->Update(deltaTime, e);
@@ -170,6 +171,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			//check if the enemy is on the bottom row of tiles
 			if (m_enemies[i]->GetPosition().y > 300.0f)
 			{
+				Mario->foot_position = Mario->foot_position - 0.0001f;
+				Luigi->foot_position = Luigi->foot_position - 0.0001f;
 				//is the enemy off screen to the left / right?
 				if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i] -> GetCollisionBox().width * 0.5f) ||
 					m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i] -> GetCollisionBox().width * 0.55f))m_enemies[i]->SetAlive(false);
@@ -247,36 +250,6 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
-{
-	if (!m_coin.empty())
-	{
-		int coinIndexToDelete = -1;
-		for (unsigned int i = 0; i < m_coin.size(); i++)
-		{
-			m_coin[i]->Update(deltaTime, e);
-			if (Collisions::Instance()->Circle(m_coin[i], Luigi) || (Collisions::Instance()->Circle(m_coin[i], Mario)))
-			{
-				Score = Score + 100;
-				m_coin[i]->SetAlive(false);
-				//Mix_PlayMusic(g_music, -1);
-				cout << Score << endl;
-
-				if (!m_coin[i]->GetAlive())
-				{
-					cout << "Collected" << endl;
-					coinIndexToDelete = i;
-				}
-				//remove dead enemies -1 each update
-				if (coinIndexToDelete != -1)
-				{
-					m_coin.erase(m_coin.begin() + coinIndexToDelete);
-				}
-			}
-		}
-	}
-}
-
 void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 {
 	if (!m_goombas.empty())
@@ -287,6 +260,9 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 			//check if the enemy is on the bottom row of tiles
 			if (m_goombas[i]->GetPosition().y > 300.0f)
 			{
+				Mario->foot_position = Mario->foot_position - 0.0001f;
+				Luigi->foot_position = Luigi ->foot_position - 0.0001f;
+
 				//is the enemy off screen to the left / right?
 				if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||
 					m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))m_goombas[i]->SetAlive(false);
@@ -318,22 +294,10 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 							Score = Score + 200;
 							m_goombas[i]->SetAlive(false);
 							cout << Score << endl;
-							cout << "ded" << endl;
-							enemyIndexToDelete = i;
-							if (enemyIndexToDelete != -1)
-							{
-								m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
-							}
-						}
-						else
-						{
-							//kill mario
-							Mario->Dead();
 						}
 					}
 					else if (Luigi->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Luigi))
 					{
-			
 						Luigi->hop();
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
@@ -341,21 +305,63 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 							Score = Score + 200;
 							m_goombas[i]->SetAlive(false);
 							cout << Score << endl;
-							cout << "ded" << endl;
-							enemyIndexToDelete = i;
-							if (enemyIndexToDelete != -1)
-							{
-								m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
-							}
-						}
-						else
-						{
-							//kill mario
-							Luigi->Dead();
 						}
 					}
 				}
-				
+				if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Mario->GetCollisionBox()))
+				{
+
+					//kill mario
+					Mario->Dead();
+				}
+				else if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				{
+
+
+					//kill mario
+					Luigi->Dead();
+				}
+			}
+			//if the enemy is no longer alive then schedule it for deletion
+			if (!m_goombas[i]->GetAlive())
+			{
+				cout << "ded" << endl;
+				enemyIndexToDelete = i;
+			}
+		}
+		//remove dead enemies -1 each update
+		if (enemyIndexToDelete != -1)
+		{
+			m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
+		}
+	}
+}
+
+void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
+{
+	if (!m_coin.empty())
+	{
+		int coinIndexToDelete = -1;
+		for (unsigned int i = 0; i < m_coin.size(); i++)
+		{
+			m_coin[i]->Update(deltaTime, e);
+			if (Collisions::Instance()->Circle(m_coin[i], Luigi) || (Collisions::Instance()->Circle(m_coin[i], Mario)))
+			{
+				Score = Score + 100;
+				m_coin[i]->SetAlive(false);
+				//Mix_PlayMusic(g_music, -1);
+				cout << Score << endl;
+
+				if (!m_coin[i]->GetAlive())
+				{
+					cout << "Collected" << endl;
+					coinIndexToDelete = i;
+				}
+				//remove dead enemies -1 each update
+				if (coinIndexToDelete != -1)
+				{
+					m_coin.erase(m_coin.begin() + coinIndexToDelete);
+				}
 			}
 		}
 	}
