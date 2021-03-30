@@ -130,6 +130,19 @@ bool Update()
 		return true;
 		break;
 	}
+	switch (e.type)
+	{
+	case SDL_KEYDOWN:
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_ESCAPE:
+		{
+			return true;
+			break;
+		}
+		}
+	}
+
 
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;

@@ -17,8 +17,6 @@ public:
 	~StartLevel();
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
-	SDL_Surface* text;
-	SDL_Texture* textTex;
 
 private:
 	Texture2D* m_background_texture;

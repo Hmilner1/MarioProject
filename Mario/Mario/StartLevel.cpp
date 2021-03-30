@@ -15,32 +15,36 @@ StartLevel::~StartLevel()
 {
 	delete m_background_texture;
 	m_background_texture = nullptr;
-	delete text;
-	delete textTex;
+
+
 
 }
 
 void StartLevel::Render()
 {
 	m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
-
-
 	
 	Retro = TTF_OpenFont("Retro.ttf", 20);
-
-	SDL_Surface* text = TTF_RenderText_Solid(Retro, "Start Game", { 0,0,0 });
+	SDL_Surface* text = TTF_RenderText_Solid(Retro, "Enter To Stat", { 0,0,0 });
 	SDL_Texture* textTex = SDL_CreateTextureFromSurface(m_renderer, text);
-	textRect.x = 200.0f;
+	textRect.x = 170.0f;
 	textRect.y = 130.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, textTex, NULL, &textRect);
 	SDL_QueryTexture(textTex, NULL, NULL, &textRect.w, &textRect.h);
 	SDL_FreeSurface(text);
 	SDL_DestroyTexture(textTex);
-	text = nullptr;
-	textTex = nullptr;
-	
-	
+
+	Retro = TTF_OpenFont("Retro.ttf", 20);
+	SDL_Surface* Exit = TTF_RenderText_Solid(Retro, "Escape To Exit", { 0,0,0 });
+	SDL_Texture* ExitTex = SDL_CreateTextureFromSurface(m_renderer, Exit);
+	textRect.x = 170.0f;
+	textRect.y = 200.0f;
+	TTF_CloseFont(Retro);
+	SDL_RenderCopy(m_renderer, ExitTex, NULL, &textRect);
+	SDL_QueryTexture(ExitTex, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_FreeSurface(Exit);
+	SDL_DestroyTexture(ExitTex);
 }
 
 void StartLevel::Update(float deltaTime, SDL_Event e)
