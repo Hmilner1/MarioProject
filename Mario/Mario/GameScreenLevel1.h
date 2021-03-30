@@ -13,6 +13,7 @@
 #include "Coin.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
+#include <SDL_TTF.h>
 #include <vector>
 #include <SDL_mixer.h>
 class  Texture2D;
@@ -41,6 +42,8 @@ private:
 	vector<Koopa*> m_enemies;
 	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
+	TTF_Font* Retro;
+	SDL_Rect textRect;
 	
 
 	

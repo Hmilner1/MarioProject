@@ -44,6 +44,28 @@ void GameScreenLevel1::Render()
 	Mario->Render();
 	m_pow_block->Render();
 	Luigi->Render();
+
+	Retro = TTF_OpenFont("Retro.ttf", 20);
+	SDL_Surface* Score = TTF_RenderText_Solid(Retro, "Score: ", { 0,0,0 });
+	SDL_Texture* ScoreTex = SDL_CreateTextureFromSurface(m_renderer, Score);
+	textRect.x = 0.0f;
+	textRect.y = 0.0f;
+	TTF_CloseFont(Retro);
+	SDL_RenderCopy(m_renderer, ScoreTex, NULL, &textRect);
+	SDL_QueryTexture(ScoreTex, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_FreeSurface(Score);
+	SDL_DestroyTexture(ScoreTex);
+
+	Retro = TTF_OpenFont("Retro.ttf", 20);
+	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, "Lives: ", { 0,0,0 });
+	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
+	textRect.x = 350.0f;
+	textRect.y = 0.0f;
+	TTF_CloseFont(Retro);
+	SDL_RenderCopy(m_renderer, LivesTex, NULL, &textRect);
+	SDL_QueryTexture(LivesTex, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_FreeSurface(Lives);
+	SDL_DestroyTexture(LivesTex);
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)

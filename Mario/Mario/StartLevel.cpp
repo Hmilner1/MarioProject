@@ -15,9 +15,6 @@ StartLevel::~StartLevel()
 {
 	delete m_background_texture;
 	m_background_texture = nullptr;
-
-
-
 }
 
 void StartLevel::Render()
@@ -65,7 +62,7 @@ void StartLevel::Update(float deltaTime, SDL_Event e)
 bool StartLevel::SetUpLevel()
 {
 	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
+	if (!m_background_texture->LoadFromFile("Images/Start2.png"))
 	{
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 		return false;
