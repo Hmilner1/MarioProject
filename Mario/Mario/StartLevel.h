@@ -6,6 +6,7 @@
 #include "Commons.h"
 #include <vector>
 #include <SDL_mixer.h>
+#include <SDL_TTF.h>
 class  Texture2D;
 
 class StartLevel : GameScreen
@@ -16,11 +17,15 @@ public:
 	~StartLevel();
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
+	SDL_Surface* text;
+	SDL_Texture* textTex;
 
 private:
 	Texture2D* m_background_texture;
 	Texture2D* m_background;
 	bool SetUpLevel();
+	TTF_Font* Retro;
+	SDL_Rect textRect;
 
 };
 #endif
