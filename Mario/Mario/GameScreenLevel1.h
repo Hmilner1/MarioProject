@@ -31,6 +31,7 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
 	int Score;
+	int lifeCount = 3;
 
 private:
 	Texture2D* m_background_texture;
@@ -44,6 +45,7 @@ private:
 	vector<Coin*> m_coin;
 	TTF_Font* Retro;
 	SDL_Rect textRect;
+	SDL_Rect scoreRect;
 	
 
 	
