@@ -116,8 +116,8 @@ bool GameScreenLevel1::SetUpLevel()
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
 
-	CreateGoomba(Vector2D(30, 32), FACING_RIGHT, 20.0f);
-	CreateGoomba(Vector2D(-30, 32), FACING_RIGHT, 20.0f);
+	CreateGoomba(Vector2D(30, 35), FACING_RIGHT, 20.0f);
+	CreateGoomba(Vector2D(-30, 35), FACING_RIGHT, 20.0f);
 
 	CreateCoin(Vector2D(365, 32));
 	CreateCoin(Vector2D(395, 32));
@@ -239,6 +239,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					{
 						//kill mario
 						Mario->Dead();
+						lifeCount = lifeCount - 1;
 					}
 				}
 				else if(Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
@@ -253,6 +254,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					{
 						//kill mario
 						Luigi->Dead();
+						lifeCount = lifeCount - 1;
 					}
 				}
 			}
@@ -334,6 +336,7 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 
 					//kill mario
 					Mario->Dead();
+					lifeCount = lifeCount - 1;
 				}
 				else if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
 				{
@@ -341,6 +344,7 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 
 					//kill mario
 					Luigi->Dead();
+					lifeCount = lifeCount - 1;
 				}
 			}
 			//if the enemy is no longer alive then schedule it for deletion
@@ -370,6 +374,7 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 			{
 				Score = Score + 100;
 				m_coin[i]->SetAlive(false);
+				Mix_PlayChannel(-1, coinSound, 0);
 				//Mix_PlayMusic(g_music, -1);
 				cout << Score << endl;
 

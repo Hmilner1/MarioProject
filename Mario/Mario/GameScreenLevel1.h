@@ -46,6 +46,7 @@ private:
 	TTF_Font* Retro;
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
+	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 	
 
 	
