@@ -59,6 +59,7 @@ void Goomba::Update(float deltaTime, SDL_Event e)
 void Goomba::TakeDamage()
 {
 	m_injured = true;
+	Mix_PlayChannel(-1, stompSound, 0);
 	Jump();
 }
 

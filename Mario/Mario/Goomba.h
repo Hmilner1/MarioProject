@@ -2,6 +2,7 @@
 #ifndef _GOOMBA_
 #define _GOOMBA_
 #include "Character.h"
+#include <SDL_mixer.h>
 class Goomba : public Character
 {
 public:
@@ -13,6 +14,7 @@ public:
 	void Turn();
 	bool GetInjured();
 	void Jump();
+	Mix_Chunk* stompSound = Mix_LoadWAV("Music/Stomp.wav");
 
 private:
 	void MoveRight(float deltaTime) override;

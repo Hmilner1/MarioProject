@@ -109,6 +109,7 @@ void Character::Jump()
 	if (!m_jumping)
 	{
 		m_jump_force = INITIAL_JUMP_FORCE;
+		Mix_PlayChannel(-1, jumpSound, 0);
 		m_jumping = true;
 		m_can_jump = false;
 	}

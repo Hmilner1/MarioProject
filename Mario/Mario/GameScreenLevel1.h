@@ -31,7 +31,7 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
 	int Score;
-	int lifeCount = 3;
+	int lifeCount = 2;
 
 private:
 	Texture2D* m_background_texture;

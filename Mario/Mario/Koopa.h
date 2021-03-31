@@ -2,6 +2,7 @@
 #ifndef _KOOPA_
 #define _KOOPA_
 #include "Character.h"
+#include <SDL_mixer.h>
 class Koopa: public Character
 {
 public: 
@@ -13,6 +14,7 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 	bool GetInjured();
 	void Turn();
+	Mix_Chunk* stompSound = Mix_LoadWAV("Music/Stomp.wav");
 private:
 	void FlipRightWayUp();
 	void MoveRight(float deltaTime) override;

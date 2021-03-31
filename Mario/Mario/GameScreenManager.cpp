@@ -29,7 +29,7 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e)
 }
 void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 {
-	
+
 	if (m_current_screen != nullptr)
 	{
 		delete m_current_screen;
@@ -52,6 +52,9 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		m_current_screen = (GameScreen*)tempscreen;
 		tempscreen = nullptr;
 		break;
-		}
-	
+	}
+
+
 }
+	
+

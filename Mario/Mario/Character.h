@@ -6,6 +6,7 @@
 #include "Commons.h"
 #include "Texture2D.h"
 #include "LevelMap.h"
+#include <SDL_mixer.h>
 using namespace std;
 
 class Texture2D;
@@ -31,6 +32,7 @@ public:
 	SDL_Renderer* m_renderer;
 	float GetCollisionRadius();
 	virtual void hop();
+	Mix_Chunk* jumpSound = Mix_LoadWAV("Music/Jump.wav");
 	Rect2D GetCollisionBox() 
 	{
 		return Rect2D(m_position.x, m_position.y,m_texture->GetWidth(), m_texture->GetHeight());
@@ -41,7 +43,6 @@ public:
 	int centralX_position;
 private:
 	LevelMap* m_current_level_map;
-
 protected:
 	virtual void Jump();
 	FACING m_facing_direction;

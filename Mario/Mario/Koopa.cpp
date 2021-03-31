@@ -74,6 +74,7 @@ void Koopa::TakeDamage()
 {
 	m_injured = true;
 	Jump();
+	Mix_PlayChannel(-1, stompSound, 0);
 	m_injured_time = INJURED_TIME;
 }
 

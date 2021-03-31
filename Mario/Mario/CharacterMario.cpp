@@ -3,11 +3,11 @@
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map)
 {
-	
 }
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
+
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:

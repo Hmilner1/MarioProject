@@ -84,7 +84,6 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	{
 		//cout << "Box hit" << endl;
 	}
-
 	if (m_screenshake)
 	{
 		m_shake_time -= deltaTime;
@@ -98,6 +97,10 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 			m_background_yPos = 0.0f;
 		}
 	}
+	if (lifeCount <= 0)
+	{
+		screen = SCREEN_INTRO;
+	}
 }
 
 bool GameScreenLevel1::SetUpLevel()
@@ -109,9 +112,9 @@ bool GameScreenLevel1::SetUpLevel()
 		return false;
 	}
 	//Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 330));
-	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 330), m_level_map);
+	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 280), m_level_map);
 	//Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 330));
-	Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 330), m_level_map);
+	Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 280), m_level_map);
 	//loads koopas
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
@@ -375,7 +378,6 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 				Score = Score + 100;
 				m_coin[i]->SetAlive(false);
 				Mix_PlayChannel(-1, coinSound, 0);
-				//Mix_PlayMusic(g_music, -1);
 				cout << Score << endl;
 
 				if (!m_coin[i]->GetAlive())
