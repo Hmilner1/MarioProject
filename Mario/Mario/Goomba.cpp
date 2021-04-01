@@ -15,6 +15,7 @@ Goomba::~Goomba()
 {
 	Mix_FreeChunk(stompSound);
 	stompSound = nullptr;
+	delete stompSound;
 }
 
 void Goomba::Render()

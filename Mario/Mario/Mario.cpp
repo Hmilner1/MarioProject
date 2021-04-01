@@ -113,6 +113,7 @@ void CLoseSDL()
 	//clear up music
 	Mix_FreeMusic(g_music);
 	g_music = nullptr;
+	delete g_music;
 }
 
 bool Update()

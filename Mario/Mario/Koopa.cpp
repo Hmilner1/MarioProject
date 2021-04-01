@@ -14,6 +14,7 @@ Koopa::~Koopa()
 {
 	Mix_FreeChunk(stompSound);
 	stompSound = nullptr;
+	delete stompSound;
 }
 
 void Koopa::Render()

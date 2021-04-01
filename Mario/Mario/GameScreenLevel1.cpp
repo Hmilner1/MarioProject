@@ -32,6 +32,7 @@ GameScreenLevel1::~GameScreenLevel1()
 	//audio
 	Mix_FreeChunk(coinSound);
 	coinSound = nullptr;
+	delete coinSound;
 }
 
 void GameScreenLevel1::Render()
