@@ -22,6 +22,7 @@ Character::~Character()
 	m_renderer = nullptr;
 	Mix_FreeChunk(jumpSound);
 	jumpSound = nullptr;
+	delete jumpSound;
 }
 
 void Character::Render()

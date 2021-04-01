@@ -42,7 +42,6 @@ void Koopa::Render()
 void Koopa::Update(float deltaTime, SDL_Event e)
 {
 	Character::Update(deltaTime, e);
-	//use the code within the base class
 	if (!m_injured)
 	{
 		//enemy is not injured so move
@@ -59,7 +58,6 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 	}
 	else if(m_injured)
 	{
-		//we should not be moving when injured
 		m_moving_right = false;
 		m_moving_left = false;
 		//count down the injured time

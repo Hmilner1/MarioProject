@@ -7,7 +7,7 @@
 #include "Texture2D.h"
 #include "Commons.h"
 #include"GameScreenManager.h"
-//#include "GameScreenLevel1.h"
+
 using namespace std;
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
@@ -27,7 +27,6 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		//game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
 		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
 		LoadMusic("Music/Mario.mp3");
 		if (Mix_PlayingMusic() == 0)
@@ -97,7 +96,6 @@ bool InitSDL()
 		cout << "Render could not initilise. Error: " << SDL_GetError();
 		return false;
 	}
-
 }
 
 void CLoseSDL()
@@ -115,7 +113,6 @@ void CLoseSDL()
 	//clear up music
 	Mix_FreeMusic(g_music);
 	g_music = nullptr;
-
 }
 
 bool Update()
@@ -143,7 +140,6 @@ bool Update()
 		}
 	}
 
-
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
 	return false;
@@ -155,7 +151,6 @@ void Render()
 	SDL_RenderClear(g_renderer);
 	game_screen_manager->Render();
 	SDL_RenderPresent(g_renderer);
-
 }
 
 void LoadMusic(string path)

@@ -16,13 +16,14 @@ GameScreenManager::~GameScreenManager()
 
 void GameScreenManager::Render()
 {
-
 	m_current_screen-> Render();
 }
+
 void GameScreenManager::Update(float deltaTime, SDL_Event e)
 {
 	m_current_screen->Update(deltaTime, e);
 
+	//returns game next screen from GameScreen and changed screen to it 
 	if (m_current_screen->NextScreen() != REPEATSCREEN)
 	{
 		ChangeScreen(m_current_screen->NextScreen());
@@ -30,7 +31,7 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e)
 }
 void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 {
-
+	//clears old maps 
 	if (m_current_screen != nullptr)
 	{
 		delete m_current_screen;
