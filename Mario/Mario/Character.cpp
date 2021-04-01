@@ -20,6 +20,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 Character::~Character()
 {
 	m_renderer = nullptr;
+	Mix_FreeChunk(jumpSound);
+	jumpSound = nullptr;
 }
 
 void Character::Render()

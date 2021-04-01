@@ -12,7 +12,8 @@ Koopa::Koopa(SDL_Renderer* renderer, string imagePath, LevelMap* map,Vector2D st
 
 Koopa::~Koopa()
 {
-
+	Mix_FreeChunk(stompSound);
+	stompSound = nullptr;
 }
 
 void Koopa::Render()

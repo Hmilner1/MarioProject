@@ -12,17 +12,26 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 
 GameScreenLevel1::~GameScreenLevel1()
 {
+	//map
 	delete m_background_texture;
 	m_background_texture = nullptr;
+	delete m_level_map;
+	m_level_map = nullptr;
+	//players
 	delete Mario;
 	Mario = nullptr;
-	Luigi = nullptr;
 	delete Luigi;
+	Luigi = nullptr;
+	//blocks
 	delete m_pow_block;
 	m_pow_block = nullptr;
+	//enimies
 	m_enemies.clear();
 	m_coin.clear();
 	m_goombas.clear();
+	//audio
+	Mix_FreeChunk(coinSound);
+	coinSound = nullptr;
 }
 
 void GameScreenLevel1::Render()
