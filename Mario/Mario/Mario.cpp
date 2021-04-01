@@ -20,7 +20,6 @@ void CLoseSDL();
 bool Update();
 void Render();
 void LoadMusic(string path);
-void LoadText();
 
 
 int main(int argc, char* args[])

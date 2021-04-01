@@ -6,6 +6,7 @@
 #include "GameScreen.h"
 #include "StartLevel.h"
 #include "GameScreenLevel1.h"
+#include "GameScreenLevel2.h"
 class GameScreen;
 
 class GameScreenManager

@@ -107,9 +107,17 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	}
 
 	//resets lvl if there are no lives left
-	if (lifeCount <= 0)
+	if (lifeCount == 0)
 	{
 		screen = SCREEN_INTRO;
+	}
+	if (Mario->GetAlive() == true && Mario->GetPosition().x <= 55.0f && Mario->GetPosition().y <= 55)
+	{
+		screen = SCREEN_LEVEL2;
+	}
+	else if(Luigi->GetAlive() == true && Luigi->GetPosition().x <= 55.0f && Luigi->GetPosition().y <= 55)
+	{
+		screen = SCREEN_LEVEL2;
 	}
 }
 
@@ -426,4 +434,3 @@ void GameScreenLevel1::CreateGoomba(Vector2D position, FACING direction, float s
 	Goomba* goomba = new Goomba(m_renderer, "Images/Goomba.png", m_level_map, position, direction, speed);
 	m_goombas.push_back(goomba);
 }
-
