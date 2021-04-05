@@ -8,6 +8,8 @@ class CharacterMario : public Character
 public:
 	CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map);
 	void Update(float deltaTime, SDL_Event e) override;
+	int Score = 0;
+	int lifeCount = 2;
 };
 #endif
 

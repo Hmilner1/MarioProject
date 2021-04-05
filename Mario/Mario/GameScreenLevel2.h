@@ -3,6 +3,7 @@
 #define _GAMESCREENLEVEL2_H
 #include "GameScreen.h"
 #include "GameScreenManager.h"
+#include "GameScreenLevel1.h"
 #include "Commons.h"
 #include "Collisions.h"
 #include "Character.h"
@@ -19,6 +20,7 @@
 class  Texture2D;
 class Character;
 class PowBlock;
+class GameScreenLevel1;
 
 class GameScreenLevel2 : GameScreen
 {
@@ -30,8 +32,6 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
-	int Score;
-	int lifeCount = 2;
 
 private:
 	Texture2D* m_background_texture;
@@ -47,7 +47,6 @@ private:
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
-
 
 
 	bool SetUpLevel();

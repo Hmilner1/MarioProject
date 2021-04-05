@@ -57,7 +57,7 @@ void GameScreenLevel1::Render()
 	// handles rendering text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	//font surface 
-	SDL_Surface* Scoresurf = TTF_RenderText_Solid(Retro,(std::string("Score: ") + to_string(Score)).c_str(), { 0,0,0 });
+	SDL_Surface* Scoresurf = TTF_RenderText_Solid(Retro,(std::string("Score: ") + to_string(Mario->Score)).c_str(), { 0,0,0 });
 	SDL_Texture* ScoreTex = SDL_CreateTextureFromSurface(m_renderer, Scoresurf);
 	scoreRect.x = 0.0f;
 	scoreRect.y = 0.0f;
@@ -65,7 +65,7 @@ void GameScreenLevel1::Render()
 	SDL_RenderCopy(m_renderer, ScoreTex, NULL, &scoreRect);
 	SDL_QueryTexture(ScoreTex, NULL, NULL, &scoreRect.w, &scoreRect.h);
 
-	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(lifeCount)).c_str(), { 0,0,0 });
+	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 0,0,0 });
 	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
 	textRect.x = 400.0f;
 	textRect.y = 0.0f;
@@ -107,7 +107,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	}
 
 	//resets lvl if there are no lives left
-	if (lifeCount == 0)
+	if (Mario->lifeCount == 0)
 	{
 		screen = SCREEN_INTRO;
 	}
@@ -247,30 +247,30 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
-						Score = Score + 200;
+						Mario->Score = Mario->Score + 200;
 						m_enemies[i]->SetAlive(false);
-						std::cout << Score << endl;
+						std::cout << Mario->Score << endl;
 					}
 					else
 					{
 						//kill Mario
 						Mario->Dead();
-						lifeCount = lifeCount - 1;
+						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
 				else if(Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
-						Score = Score + 200;
+						Mario->Score = Mario->Score + 200;
 						m_enemies[i]->SetAlive(false);
-						std::cout << Score << endl;
+						std::cout << Mario->Score << endl;
 					}
 					else
 					{
 						//kill Luigi
 						Luigi->Dead();
-						lifeCount = lifeCount - 1;
+						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
 			}
@@ -320,9 +320,9 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
 						{
-							Score = Score + 200;
+							Mario->Score = Mario->Score + 200;
 							m_goombas[i]->SetAlive(false);
-							std::cout << Score << endl;
+							std::cout << Mario->Score << endl;
 						}
 					}
 					else if (Luigi->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Luigi))
@@ -331,9 +331,9 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
 						{
-							Score = Score + 200;
+							Mario->Score = Mario->Score + 200;
 							m_goombas[i]->SetAlive(false);
-							std::cout << Score << endl;
+							std::cout << Mario->Score << endl;
 						}
 					}
 				}
@@ -343,7 +343,7 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 
 					//kill mario
 					Mario->Dead();
-					lifeCount = lifeCount - 1;
+					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 				else if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
 				{
@@ -351,7 +351,7 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 
 					//kill mario
 					Luigi->Dead();
-					lifeCount = lifeCount - 1;
+					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 			}
 			//delete dead enemy
@@ -378,10 +378,10 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 			m_coin[i]->Update(deltaTime, e);
 			if (Collisions::Instance()->Circle(m_coin[i], Luigi) || (Collisions::Instance()->Circle(m_coin[i], Mario)))
 			{
-				Score = Score + 100;
+				Mario->Score = Mario->Score + 100;
 				m_coin[i]->SetAlive(false);
 				Mix_PlayChannel(-1, coinSound, 0);
-				std::cout << Score << endl;
+				std::cout << Mario->Score << endl;
 
 				if (!m_coin[i]->GetAlive())
 				{
@@ -411,8 +411,8 @@ void GameScreenLevel1::DoScreenshake()
 	for (unsigned int i = 0; i < m_goombas.size(); i++)
 	{
 		m_goombas[i]->Jump();
-		Score = Score + 200;
-		std::cout << Score << endl;
+		Mario->Score = Mario->Score + 200;
+		std::cout << Mario->Score << endl;
 		m_goombas[i]->SetAlive(false);
 	}
 }
