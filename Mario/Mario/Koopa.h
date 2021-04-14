@@ -19,9 +19,6 @@ private:
 	void FlipRightWayUp();
 	void MoveRight(float deltaTime) override;
 	void MoveLeft(float deltaTime) override;
-
-	float m_single_sprite_w;
-	float m_single_sprite_h;
 	float m_movement_speed;
 	float m_injured_time;
 	bool m_injured;

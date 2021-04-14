@@ -130,8 +130,8 @@ bool GameScreenLevel1::SetUpLevel()
 		return false;
 	}
 	//payers
-	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 280), m_level_map);
-	Luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(64, 280), m_level_map);
+	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(64, 280), m_level_map);
+	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 280), m_level_map);
 
 	//enemies
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);

@@ -41,9 +41,11 @@ public:
 	bool m_moving_right;
 	int foot_position;
 	int centralX_position;
+	float m_single_sprite_w;
+	float m_single_sprite_h;
 private:
-	LevelMap* m_current_level_map;
 protected:
+	LevelMap* m_current_level_map;
 	virtual void Jump();
 	FACING m_facing_direction;
 	Vector2D m_position;

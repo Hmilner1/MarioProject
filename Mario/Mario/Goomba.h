@@ -21,8 +21,6 @@ private:
 	void MoveLeft(float deltaTime) override;
 
 	float m_movement_speed;
-	float m_single_sprite_w;
-	float m_single_sprite_h;
 	bool m_injured;
 	float m_frame_delay;
 	int m_current_frame;

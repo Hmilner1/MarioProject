@@ -21,7 +21,6 @@ bool Update();
 void Render();
 void LoadMusic(string path);
 
-
 int main(int argc, char* args[])
 {
 	if (InitSDL())
