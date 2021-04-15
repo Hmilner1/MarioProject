@@ -14,4 +14,4 @@
 #define GRAVITY 500.0f
 #define SHAKE_DURATION 0.25f
 #define INJURED_TIME 5.0f
-#define ANIMATION_DELAY 0.17f
+#define ANIMATION_DELAY 0.10f

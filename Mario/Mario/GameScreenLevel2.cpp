@@ -241,7 +241,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 					}
 				}
 				//handles player collision when not happening on top 
-				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Mario->GetCollisionBox()))
+				if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
@@ -256,7 +256,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
-				else if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
@@ -336,14 +336,14 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 					}
 				}
 				//side collision
-				if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Mario->GetCollisionBox()))
+				if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_goombas[i]->GetCollisionBox()))
 				{
 
 					//kill mario
 					Mario->Dead();
 					Mario->lifeCount = Mario->lifeCount - 1;
 				}
-				else if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_goombas[i]->GetCollisionBox()))
 				{
 
 

@@ -12,7 +12,7 @@ public:
 	void Render();
 	Rect2D GetCollisionBox()
 	{
-		return Rect2D(m_position.x, m_position.y, m_texture->GetWidth(), m_texture->GetHeight());
+		return Rect2D(m_position.x, m_position.y, m_texture->GetWidth() /2 , m_texture->GetHeight());
 	}
 	void TakeHit();
 	bool IsAvailable() { return m_num_hits_left > 0; }
