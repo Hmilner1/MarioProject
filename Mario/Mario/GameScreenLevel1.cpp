@@ -37,6 +37,11 @@ GameScreenLevel1::~GameScreenLevel1()
 
 void GameScreenLevel1::Render()
 {
+	m_background->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
+	for (int i = 0; i < m_goombas.size(); i++)
+	{
+		m_goombas[i]->Render();
+	}
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
 		m_enemies[i]->Render();
@@ -46,14 +51,10 @@ void GameScreenLevel1::Render()
 	{
 		m_coin[i]->Render();
 	}
-	for (int i = 0; i < m_goombas.size(); i++)
-	{
-		m_goombas[i]->Render();
-	}
-	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	Mario->Render();
 	m_pow_block->Render();
 	Luigi->Render();
+	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 
 	// handles rendering text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
@@ -124,6 +125,12 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 
 bool GameScreenLevel1::SetUpLevel()
 {
+	m_background = new Texture2D(m_renderer);
+	if (!m_background->LoadFromFile("Images/Start2.png"))
+	{
+		std::cout << "Failed to load backgorund texture!" << std::endl;
+		return false;
+	}
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
 	{
