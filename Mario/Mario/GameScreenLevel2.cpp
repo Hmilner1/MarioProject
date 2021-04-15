@@ -4,6 +4,10 @@
 
 GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer) : GameScreen(renderer)
 {
+	LoadMusic("Music/MarioUnderworld.mp3");
+	Mix_PlayMusic(g_music, -1);
+	
+
 	m_renderer = renderer;
 	m_level_map = nullptr;
 	SetLevelMap();
@@ -37,6 +41,7 @@ GameScreenLevel2::~GameScreenLevel2()
 
 void GameScreenLevel2::Render()
 {
+	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
 		m_enemies[i]->Render();
@@ -49,7 +54,6 @@ void GameScreenLevel2::Render()
 	{
 		m_goombas[i]->Render();
 	}
-	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	Mario->Render();
 	m_pow_block->Render();
 	Luigi->Render();
@@ -57,7 +61,7 @@ void GameScreenLevel2::Render()
 	// handles rendering text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	//font surface 
-	SDL_Surface* Scoresurf = TTF_RenderText_Solid(Retro, (std::string("ScoreLvl2: ") + to_string(Mario->Score)).c_str(), { 0,0,0 });
+	SDL_Surface* Scoresurf = TTF_RenderText_Solid(Retro, (std::string("ScoreLvl2: ") + to_string(Mario->Score)).c_str(), { 255,255,255 });
 	SDL_Texture* ScoreTex = SDL_CreateTextureFromSurface(m_renderer, Scoresurf);
 	scoreRect.x = 0.0f;
 	scoreRect.y = 0.0f;
@@ -65,7 +69,7 @@ void GameScreenLevel2::Render()
 	SDL_RenderCopy(m_renderer, ScoreTex, NULL, &scoreRect);
 	SDL_QueryTexture(ScoreTex, NULL, NULL, &scoreRect.w, &scoreRect.h);
 
-	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 0,0,0 });
+	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 255,255,255 });
 	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
 	textRect.x = 400.0f;
 	textRect.y = 0.0f;
@@ -116,7 +120,7 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 bool GameScreenLevel2::SetUpLevel()
 {
 	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
+	if (!m_background_texture->LoadFromFile("Images/Lvl2Background.png"))
 	{
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 		return false;
@@ -151,19 +155,19 @@ bool GameScreenLevel2::SetUpLevel()
 void GameScreenLevel2::SetLevelMap()
 {
 	//sets up lvl map
-	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
-									 { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
+	int map[MAP_HEIGHT][MAP_WIDTH] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
+									 { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
+									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
 
 	if (m_level_map != nullptr)
 	{
@@ -431,4 +435,13 @@ void GameScreenLevel2::CreateGoomba(Vector2D position, FACING direction, float s
 {
 	Goomba* goomba = new Goomba(m_renderer, "Images/Goomba.png", m_level_map, position, direction, speed);
 	m_goombas.push_back(goomba);
+}
+
+void GameScreenLevel2::LoadMusic(string path)
+{
+	g_music = Mix_LoadMUS(path.c_str());
+	if (g_music == nullptr)
+	{
+		cout << "Failed to load music. Error: " << Mix_GetError() << endl;
+	}
 }

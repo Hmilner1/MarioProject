@@ -30,6 +30,8 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
+	void LoadMusic(string path);
+	Mix_Music* g_music = nullptr;
 
 private:
 	Texture2D* m_background_texture;

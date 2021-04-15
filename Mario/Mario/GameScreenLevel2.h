@@ -32,6 +32,8 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
+	void LoadMusic(string path);
+	Mix_Music* g_music = nullptr;
 
 private:
 	Texture2D* m_background_texture;
@@ -47,7 +49,6 @@ private:
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
-
 
 	bool SetUpLevel();
 	void SetLevelMap();

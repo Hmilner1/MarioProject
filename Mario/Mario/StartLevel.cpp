@@ -1,14 +1,13 @@
 #include "Texture2D.h"
 #include "StartLevel.h"
 #include <iostream>
+#include <sstream>
+#include <string>
 
 StartLevel::StartLevel(SDL_Renderer* renderer) : GameScreen(renderer)
 {
 	m_renderer = renderer;
 	SetUpLevel();
-
-
-
 }
 
 StartLevel::~StartLevel()
@@ -68,3 +67,4 @@ bool StartLevel::SetUpLevel()
 		return false;
 	}
 }
+

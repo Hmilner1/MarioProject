@@ -7,11 +7,12 @@
 #include <vector>
 #include <SDL_mixer.h>
 #include <SDL_TTF.h>
+#include <iostream>
+#include <sstream>
 class  Texture2D;
 
 class StartLevel : GameScreen
 {
-
 public:
 	StartLevel(SDL_Renderer* renderer);
 	~StartLevel();

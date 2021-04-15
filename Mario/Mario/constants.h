@@ -1,8 +1,8 @@
 #pragma once
-#define SCREEN_WIDTH 512	
+#define SCREEN_WIDTH 1024	
 #define SCREEN_HEIGHT 416
 #define MAP_HEIGHT 13
-#define MAP_WIDTH 16
+#define MAP_WIDTH 38
 #define TILE_HEIGHT 32
 #define TILE_WIDTH 32
 #define MOVEMENTSPEED 85.0f
