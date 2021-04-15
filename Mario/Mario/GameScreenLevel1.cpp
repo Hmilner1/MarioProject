@@ -40,6 +40,7 @@ void GameScreenLevel1::Render()
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
 		m_enemies[i]->Render();
+
 	}
 	for (int i = 0; i < m_coin.size(); i++)
 	{
@@ -243,7 +244,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					}
 				}
 				//handles player collision when not happening on top 
-				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Mario->GetCollisionBox()))
+				if (Collisions::Instance()->Box(Mario->GetCollisionBox(),m_enemies[i]->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
@@ -258,7 +259,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
-				else if(Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
@@ -338,14 +339,14 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 					}
 				}
 				//side collision
-				if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Mario->GetCollisionBox()))
+				if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 
 					//kill mario
 					Mario->Dead();
 					Mario->lifeCount = Mario->lifeCount - 1;
 				}
-				else if (Collisions::Instance()->Box(m_goombas[i]->GetCollisionBox(), Luigi->GetCollisionBox()))
+				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 
 
