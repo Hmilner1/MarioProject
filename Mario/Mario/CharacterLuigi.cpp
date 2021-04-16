@@ -15,7 +15,7 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		frameDelay -= deltaTime;
 		if (frameDelay <= 0.0f)
 		{
-			frameDelay = ANIMATION_DELAY;
+			frameDelay = CHARANIMATION_DELAY;
 
 			frame++;
 

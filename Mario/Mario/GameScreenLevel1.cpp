@@ -110,16 +110,25 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		}
 	}
 
+	
+	m_respawn_time -= deltaTime;
+	if (m_respawn_time <= 0.0f)
+	{
+		CreateKoopa(Vector2D(608, 32), FACING_RIGHT, KOOPA_SPEED);
+		CreateGoomba(Vector2D(576, 32), FACING_RIGHT, 20.0f);
+		m_respawn_time = RESPAWN;
+	}
+
 	//resets lvl if there are no lives left
 	if (Mario->lifeCount == 0)
 	{
 		screen = SCREEN_INTRO;
 	}
-	if (Mario->GetAlive() == true && Mario->GetPosition().x <= 55.0f && Mario->GetPosition().y <= 55)
+	if (Mario->GetAlive() == true && Mario->GetPosition().x > 928.0f && Mario->GetPosition().y > 320.0f )
 	{
 		screen = SCREEN_LEVEL2;
 	}
-	else if(Luigi->GetAlive() == true && Luigi->GetPosition().x <= 55.0f && Luigi->GetPosition().y <= 55)
+	else if(Luigi->GetAlive() == true && Luigi->GetPosition().x > 928.0f && Luigi->GetPosition().y > 320.0f)
 	{
 		screen = SCREEN_LEVEL2;
 	}
@@ -138,13 +147,17 @@ bool GameScreenLevel1::SetUpLevel()
 	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 280), m_level_map);
 
 	//enemies
-	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
-	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
-	CreateGoomba(Vector2D(30, 35), FACING_RIGHT, 20.0f);
-	CreateGoomba(Vector2D(-30, 35), FACING_RIGHT, 20.0f);
-	CreateCoin(Vector2D(365, 32));
-	CreateCoin(Vector2D(395, 32));
-	CreateCoin(Vector2D(425, 32));
+	CreateKoopa(Vector2D(608, 32), FACING_RIGHT, KOOPA_SPEED); 
+	//CreateGoomba(Vector2D(30, 35), FACING_RIGHT, 20.0f);
+	CreateGoomba(Vector2D(500, 0), FACING_RIGHT, 20.0f);
+	CreateCoin(Vector2D(226, 256));
+	CreateCoin(Vector2D(194, 256));
+	CreateCoin(Vector2D(162, 256));
+
+	CreateCoin(Vector2D(290, 256));
+	CreateCoin(Vector2D(321, 256));
+	CreateCoin(Vector2D(354, 256));
+
 
 	//loads PowBlock
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
@@ -159,16 +172,16 @@ void GameScreenLevel1::SetLevelMap()
 	//sets up lvl map
 	int map[MAP_HEIGHT][MAP_WIDTH] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+									 { 1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
-									 { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
 									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }};
 
 	if (m_level_map != nullptr)
@@ -226,7 +239,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 
 			m_enemies[i]->Update(deltaTime, e);
-			if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) ||m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))
+			//if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) ||m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))
+			if(m_enemies[i]->GetPosition().x >= 928.0f || m_enemies[i]->GetPosition().x <= 0.0f)
 			{
 				m_enemies[i]->Turn();
 			}
@@ -308,8 +322,7 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 				if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))m_goombas[i]->SetAlive(false);
 			}
 			m_goombas[i]->Update(deltaTime, e);
-			if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||
-				m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))
+			if (m_goombas[i]->GetPosition().x >= 928.0f || m_goombas[i]->GetPosition().x <= 0.0f)
 			{
 				m_goombas[i]->Turn();
 			}

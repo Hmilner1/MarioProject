@@ -32,13 +32,13 @@ public:
 	void UpdatePowBlock();
 	void LoadMusic(string path);
 	Mix_Music* g_music = nullptr;
+	LevelMap* m_level_map;
 
 private:
 	Texture2D* m_background_texture;
 	Texture2D* m_background;
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
-	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
 	vector<Koopa*> m_enemies;
 	vector<Goomba*> m_goombas;
@@ -65,5 +65,7 @@ private:
 	float m_shake_time;
 	float m_wobble;
 	float m_background_yPos;
+
+	float m_respawn_time = 10.0f;
 };
 #endif
