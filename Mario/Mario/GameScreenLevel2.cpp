@@ -96,7 +96,7 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 	//resets lvl if there are no lives left
 	if (Mario->lifeCount <= 0)
 	{
-		screen = SCREEN_INTRO;
+		screen = SCREEN_GAMEOVER;
 	}
 
 	k_respawn_time -= deltaTime;
@@ -360,7 +360,7 @@ void GameScreenLevel2::UpdateCoin(float deltaTime, SDL_Event e)
 
 void GameScreenLevel2::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa* koopa = new Koopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed);
+	Koopa* koopa = new Koopa(m_renderer, "Images/UKoopa.png", m_level_map, position, direction, speed);
 	m_enemies.push_back(koopa);
 }
 

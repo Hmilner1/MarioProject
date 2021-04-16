@@ -121,7 +121,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	//resets lvl if there are no lives left
 	if (Mario->lifeCount == 0)
 	{
-		screen = SCREEN_INTRO;
+		screen = SCREEN_GAMEOVER;
 	}
 	if (Mario->GetAlive() == true && Mario->GetPosition().x > 928.0f && Mario->GetPosition().y > 320.0f )
 	{
@@ -301,6 +301,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		if (enemyIndexToDelete != -1)
 		{
 			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete);
+			cout << "deleted" << endl;
 		}
 	}
 }

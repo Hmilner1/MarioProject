@@ -62,6 +62,14 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		lvl2Screen = nullptr;
 		delete lvl2Screen;
 		break;
+
+	case SCREEN_GAMEOVER:
+		GameOver* EndScreen;
+		EndScreen = new GameOver(m_renderer);
+		m_current_screen = (GameScreen*)EndScreen;
+		EndScreen = nullptr;
+		delete EndScreen;
+		break;
 	}
 }
 

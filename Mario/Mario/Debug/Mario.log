@@ -13,7 +13,7 @@ C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(233,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(234,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(318,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(319,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(319,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(320,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(167): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
   Mario.vcxproj -> C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe
