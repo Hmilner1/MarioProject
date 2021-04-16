@@ -71,7 +71,7 @@ void GameScreenLevel1::Render()
 
 	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 0,0,0 });
 	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
-	textRect.x = 400.0f;
+	textRect.x = 900.0f;
 	textRect.y = 0.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, LivesTex, NULL, &textRect);
@@ -110,7 +110,6 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		}
 	}
 
-	
 	m_respawn_time -= deltaTime;
 	if (m_respawn_time <= 0.0f)
 	{
@@ -143,8 +142,8 @@ bool GameScreenLevel1::SetUpLevel()
 		return false;
 	}
 	//payers
-	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(64, 280), m_level_map);
-	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 280), m_level_map);
+	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(64, 250), m_level_map);
+	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 250), m_level_map);
 
 	//enemies
 	CreateKoopa(Vector2D(608, 32), FACING_RIGHT, KOOPA_SPEED); 

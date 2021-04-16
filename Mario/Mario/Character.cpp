@@ -133,6 +133,7 @@ void Character::Dead(float deltaTime)
 	m_alive = false;
 	m_position.x = -1000;
 	m_position.y = -1000;
+	m_can_jump = false;
 }
 
 void Character::hop()

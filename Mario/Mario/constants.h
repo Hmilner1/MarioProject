@@ -17,3 +17,4 @@
 #define ANIMATION_DELAY 0.15f
 #define CHARANIMATION_DELAY 0.10f
 #define RESPAWN 10.0f
+#define URESPAWN 3.0f

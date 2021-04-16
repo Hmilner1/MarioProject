@@ -31,7 +31,7 @@ public:
 
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
-	void UpdatePowBlock();
+	//void UpdatePowBlock();
 	void LoadMusic(string path);
 	Mix_Music* g_music = nullptr;
 
@@ -41,7 +41,7 @@ private:
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
 	LevelMap* m_level_map;
-	PowBlock* m_pow_block;
+	//PowBlock* m_pow_block;
 	vector<Koopa*> m_enemies;
 	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
@@ -52,7 +52,6 @@ private:
 
 	bool SetUpLevel();
 	void SetLevelMap();
-	void DoScreenshake();
 	void UpdateEnemies(float deltaTime, SDL_Event e);
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
 	void CreateCoin(Vector2D position);
@@ -60,10 +59,9 @@ private:
 	void CreateGoomba(Vector2D position, FACING direction, float speed);
 	void UpdateGoomba(float deltaTime, SDL_Event e);
 
-	bool m_screenshake;
-	float m_shake_time;
-	float m_wobble;
 	float m_background_yPos;
+	float k_respawn_time = 10.0f;
+	float g_respawn_time = 10.0f;
 };
 #endif
 

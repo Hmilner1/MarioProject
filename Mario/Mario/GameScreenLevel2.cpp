@@ -27,8 +27,8 @@ GameScreenLevel2::~GameScreenLevel2()
 	delete Luigi;
 	Luigi = nullptr;
 	//blocks
-	delete m_pow_block;
-	m_pow_block = nullptr;
+	//delete m_pow_block;
+	//m_pow_block = nullptr;
 	//enimies
 	m_enemies.clear();
 	m_coin.clear();
@@ -55,7 +55,6 @@ void GameScreenLevel2::Render()
 		m_goombas[i]->Render();
 	}
 	Mario->Render();
-	m_pow_block->Render();
 	Luigi->Render();
 
 	// handles rendering text 
@@ -71,7 +70,7 @@ void GameScreenLevel2::Render()
 
 	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 255,255,255 });
 	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
-	textRect.x = 400.0f;
+	textRect.x = 900.0f;
 	textRect.y = 0.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, LivesTex, NULL, &textRect);
@@ -90,30 +89,27 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 	{
 		m_goombas[i]->Update(deltaTime, e);
 	}
-	UpdatePowBlock();
 	UpdateEnemies(deltaTime, e);
 	UpdateGoomba(deltaTime, e);
 	UpdateCoin(deltaTime, e);
-
-	// pow block screen shake
-	if (m_screenshake)
-	{
-		m_shake_time -= deltaTime;
-		m_wobble++;
-		m_background_yPos = sin(m_wobble);
-		m_background_yPos *= 3.0f;
-		//end shake after duration
-		if (m_shake_time <= 0.0f)
-		{
-			m_shake_time = false;
-			m_background_yPos = 0.0f;
-		}
-	}
 
 	//resets lvl if there are no lives left
 	if (Mario->lifeCount <= 0)
 	{
 		screen = SCREEN_INTRO;
+	}
+
+	k_respawn_time -= deltaTime;
+	if (k_respawn_time <= 0.0f)
+	{
+		CreateKoopa(Vector2D(64, 340), FACING_RIGHT, KOOPA_SPEED);
+		k_respawn_time = RESPAWN;
+	}
+	g_respawn_time -= deltaTime;
+	if (g_respawn_time <= 0.0f)
+	{
+		CreateGoomba(Vector2D(64, 340), FACING_RIGHT, 20.0f);
+		g_respawn_time = URESPAWN;
 	}
 }
 
@@ -126,30 +122,21 @@ bool GameScreenLevel2::SetUpLevel()
 		return false;
 	}
 	//payers
-	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(64, 280), m_level_map);
-	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 280), m_level_map);
+	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(990, -400), m_level_map);
+	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(990, -400), m_level_map);
 
 	//enemies
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
-	//CreateGoomba(Vector2D(30, 35), FACING_RIGHT, 20.0f);
-	//CreateGoomba(Vector2D(-30, 35), FACING_RIGHT, 20.0f);
 	CreateGoomba(Vector2D(400, 32), FACING_RIGHT, 20.0f);
-	CreateGoomba(Vector2D(450, 32), FACING_RIGHT, 20.0f);
-	CreateCoin(Vector2D(365, 32));
-	CreateCoin(Vector2D(395, 32));
-	CreateCoin(Vector2D(425, 32));
+	CreateGoomba(Vector2D(450, 32), FACING_RIGHT, 20.0f); 
 
-	CreateCoin(Vector2D(96, 32));
-	CreateCoin(Vector2D(128, 32));
-	CreateCoin(Vector2D(160, 32));
-
-	//loads PowBlock
-	m_pow_block = new PowBlock(m_renderer, m_level_map);
-
-	//screen shake 
-	m_screenshake = false;
-	m_background_yPos = 0.0f;
+	CreateCoin(Vector2D(226, 256));
+	CreateCoin(Vector2D(194, 256));
+	CreateCoin(Vector2D(162, 256));
+	CreateCoin(Vector2D(290, 256));
+	CreateCoin(Vector2D(321, 256));
+	CreateCoin(Vector2D(354, 256));
 }
 
 void GameScreenLevel2::SetLevelMap()
@@ -157,15 +144,15 @@ void GameScreenLevel2::SetLevelMap()
 	//sets up lvl map
 	int map[MAP_HEIGHT][MAP_WIDTH] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
-									 { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 0,0,0,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+									 { 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
 
@@ -175,35 +162,6 @@ void GameScreenLevel2::SetLevelMap()
 	}
 
 	m_level_map = new LevelMap(map);
-}
-
-void GameScreenLevel2::UpdatePowBlock()
-{
-	//collision Mario
-	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_pow_block->GetCollisionBox()) && m_pow_block->IsAvailable())
-	{
-		std::cout << "Box hit" << endl;
-		if (Mario->IsJumping())
-		{
-			DoScreenshake();
-			m_pow_block->TakeHit();
-			Mario->CancelJump();
-		}
-	}
-
-	//collision Luigi
-	if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_pow_block->GetCollisionBox()) && m_pow_block->IsAvailable())
-	{
-		std::cout << "Box hit" << endl;
-
-		//collided while jumping
-		if (Luigi->IsJumping())
-		{
-			DoScreenshake();
-			m_pow_block->TakeHit();
-			Luigi->CancelJump();
-		}
-	}
 }
 
 void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
@@ -224,7 +182,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 
 			m_enemies[i]->Update(deltaTime, e);
-			if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))
+			if (m_enemies[i]->GetPosition().x >= 985.0f || m_enemies[i]->GetPosition().x <= 63.0f)
 			{
 				m_enemies[i]->Turn();
 			}
@@ -306,8 +264,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 				if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) || m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))m_goombas[i]->SetAlive(false);
 			}
 			m_goombas[i]->Update(deltaTime, e);
-			if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) ||
-				m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))
+			if (m_goombas[i]->GetPosition().x >= 985.0f || m_goombas[i]->GetPosition().x <= 63.0f)
 			{
 				m_goombas[i]->Turn();
 			}
@@ -400,24 +357,6 @@ void GameScreenLevel2::UpdateCoin(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel2::DoScreenshake()
-{
-	m_screenshake = true;
-	m_shake_time = SHAKE_DURATION;
-	m_wobble = 0.0f;
-
-	for (unsigned int i = 0; i < m_enemies.size(); i++)
-	{
-		m_enemies[i]->TakeDamage();
-	}
-	for (unsigned int i = 0; i < m_goombas.size(); i++)
-	{
-		m_goombas[i]->Jump();
-		Mario->Score = Mario->Score + 200;
-		std::cout << Mario->Score << endl;
-		m_goombas[i]->SetAlive(false);
-	}
-}
 
 void GameScreenLevel2::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
@@ -433,7 +372,7 @@ void GameScreenLevel2::CreateCoin(Vector2D position)
 
 void GameScreenLevel2::CreateGoomba(Vector2D position, FACING direction, float speed)
 {
-	Goomba* goomba = new Goomba(m_renderer, "Images/Goomba.png", m_level_map, position, direction, speed);
+	Goomba* goomba = new Goomba(m_renderer, "Images/UGoomba.png", m_level_map, position, direction, speed);
 	m_goombas.push_back(goomba);
 }
 
