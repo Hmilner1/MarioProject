@@ -13,7 +13,7 @@ public:
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
 	SDL_Renderer* m_renderer;
-
+	//send the next screen to the screen manager
 	SCREENS screen;
 	SCREENS NextScreen() { return screen; }
 

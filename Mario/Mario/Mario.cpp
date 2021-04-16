@@ -160,5 +160,3 @@ void LoadMusic(string path)
 		cout << "Failed to load music. Error: " << Mix_GetError() << endl;
 	}
 }
-
-

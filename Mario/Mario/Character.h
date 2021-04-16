@@ -10,54 +10,58 @@
 using namespace std;
 
 class Texture2D;
-
 class Character
 {
-
 public:
 	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map);
 	~Character();
-
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
+	//player events
 	virtual void AddGravity(float deltaTime);
-	void SetPosition(Vector2D new_position);
-	bool IsJumping() { return m_jumping; }
-	void SetAlive(bool isAlive);
-	virtual void Dead(float deltaTime);
-	bool GetAlive() { return m_alive; }
+	bool IsJumping() { return m_jumping; };
 	void CancelJump() { m_jumping = false; }
-	Vector2D GetPosition();
+	virtual void hop();
+	virtual void Jump();
+	//full sprite sheet 
 	Texture2D* m_texture;
 	SDL_Renderer* m_renderer;
+	//collision
 	float GetCollisionRadius();
-	virtual void hop();
-	Mix_Chunk* jumpSound = Mix_LoadWAV("Music/Jump.wav");
 	Rect2D GetCollisionBox() 
 	{
 		return Rect2D(m_position.x, m_position.y,m_texture->GetWidth(), m_texture->GetHeight());
 	}
-	bool m_moving_left;
-	bool m_moving_right;
+	//characters position 
+	Vector2D GetPosition();
 	int foot_position;
 	int centralX_position;
-	float m_single_sprite_w;
+	//controls if character is alive
 	bool m_alive;
-	float m_single_sprite_h;
+	void Dead(float deltaTime);
+	void SetAlive(bool isAlive);
+	bool GetAlive() { return m_alive; }
+
 private:
+	//music
+	Mix_Chunk* jumpSound = Mix_LoadWAV("Music/Jump.wav");
 protected:
-	LevelMap* m_current_level_map;
-	virtual void Jump();
+	//player movement
 	FACING m_facing_direction;
 	Vector2D m_position;
+	virtual void MoveLeft(float deltaTime);
+	virtual void MoveRight(float deltaTime);
+	bool m_moving_left;
+	bool m_moving_right;
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;
-	float m_collision_radius;
 	float movement_speed;
-	virtual void MoveLeft(float deltaTime);
-	virtual void MoveRight(float deltaTime);
-	float delay = 10;
+	//single sprite size 
+	float m_single_sprite_w;
+	float m_single_sprite_h;
+	//collision
+	float m_collision_radius;
+	LevelMap* m_current_level_map;
 };
-#endif // !_CHARACTER_
-
+#endif

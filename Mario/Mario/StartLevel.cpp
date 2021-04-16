@@ -78,4 +78,3 @@ bool StartLevel::SetUpLevel()
 		return false;
 	}
 }
-

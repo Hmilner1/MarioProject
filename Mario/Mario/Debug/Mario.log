@@ -1,19 +1,91 @@
-﻿  GameScreenLevel1.cpp
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(38,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(38,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  GameOver.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(25,19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(26,19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(36,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(37,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(47,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(48,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  GameScreenLevel1.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(44,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(48,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(53,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(65,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(66,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(67,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(74,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(75,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(72,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(73,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(90,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(233,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(234,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(319,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(320,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(167): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(317,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(318,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  GameScreenLevel2.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(45,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(49,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(61,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(62,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(69,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(70,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(84,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(173,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(174,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(257,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(258,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  GameScreenManager.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Mario.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Mario.cpp(114,16): warning C4150: deletion of pointer to incomplete type '_Mix_Music'; no destructor called
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\SDL2\SDL\mixer_include\SDL_mixer.h(143): message : see declaration of '_Mix_Music'
+  PowBlock.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(13,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(14,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(31,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(33,43): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(33,43): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(33,62): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(33,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(35,88): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(35,88): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(35,107): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.cpp(35,107): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  StartLevel.cpp
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Character.h(33,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\PowBlock.h(15,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(26,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(27,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(37,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(38,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(48,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(49,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\StartLevel.cpp(80): warning C4715: 'StartLevel::SetUpLevel': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\Mario.cpp(97): warning C4715: 'InitSDL': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel2.cpp(136): warning C4715: 'GameScreenLevel2::SetUpLevel': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameScreenLevel1.cpp(168): warning C4715: 'GameScreenLevel1::SetUpLevel': not all control paths return a value
+C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Mario\GameOver.cpp(81): warning C4715: 'GameOver::SetUpLevel': not all control paths return a value
   Mario.vcxproj -> C:\Users\harve\Desktop\Game Engine Creation Protfolio\MarioProject\MarioProject\Mario\Debug\Mario.exe

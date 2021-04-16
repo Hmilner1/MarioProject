@@ -72,8 +72,3 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		break;
 	}
 }
-
-
-
-	
-

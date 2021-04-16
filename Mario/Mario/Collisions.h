@@ -11,6 +11,7 @@ class CharacterMario;
 class Collisions
 {
 public:
+	Collisions();
 	~Collisions();
 	static Collisions* Instance();
 	bool Circle(Character* character1, Character* character2);
@@ -18,7 +19,6 @@ public:
 	CharacterMario* character;
 
 private:
-	Collisions();
 	static Collisions* m_instance;
 };
 #endif

@@ -24,4 +24,3 @@ private:
 	bool m_injured;
 };
 #endif
-

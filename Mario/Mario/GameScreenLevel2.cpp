@@ -7,7 +7,6 @@ GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer) : GameScreen(renderer
 	LoadMusic("Music/MarioUnderworld.mp3");
 	Mix_PlayMusic(g_music, -1);
 	
-
 	m_renderer = renderer;
 	m_level_map = nullptr;
 	SetLevelMap();
@@ -26,9 +25,6 @@ GameScreenLevel2::~GameScreenLevel2()
 	Mario = nullptr;
 	delete Luigi;
 	Luigi = nullptr;
-	//blocks
-	//delete m_pow_block;
-	//m_pow_block = nullptr;
 	//enimies
 	m_enemies.clear();
 	m_coin.clear();

@@ -8,10 +8,8 @@ public:
 	CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map);
 	void Update(float deltaTime, SDL_Event e) override;
 	void Render() override;
-	int frame;
-	
 private:
-	float frameDelay;
+	int frame;
+	float frameTime;
 };
 #endif
-

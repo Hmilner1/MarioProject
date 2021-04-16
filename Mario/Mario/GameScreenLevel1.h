@@ -3,9 +3,7 @@
 #define _GAMESCREENLEVEL1_H
 #include "GameScreen.h"
 #include "GameScreenManager.h"
-#include "Commons.h"
 #include "Collisions.h"
-#include "Character.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
 #include "Koopa.h"
@@ -16,13 +14,12 @@
 #include <SDL_TTF.h>
 #include <vector>
 #include <SDL_mixer.h>
+
 class  Texture2D;
 class Character;
 class PowBlock;
-
 class GameScreenLevel1 : GameScreen
 {
-
 public:
 	GameScreenLevel1(SDL_Renderer* renderer);
 	~GameScreenLevel1();
@@ -31,10 +28,11 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 	void UpdatePowBlock();
 	void LoadMusic(string path);
-	Mix_Music* g_music = nullptr;
-	LevelMap* m_level_map;
+
 
 private:
+	Mix_Music* g_music = nullptr;
+	LevelMap* m_level_map;
 	Texture2D* m_background_texture;
 	Texture2D* m_background;
 	CharacterMario* Mario;
@@ -46,11 +44,10 @@ private:
 	TTF_Font* Retro;
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
-	SDL_Rect cameraRect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 	
 
-	
+	//lvl set up and updates
 	bool SetUpLevel();
 	void SetLevelMap();
 	void DoScreenshake();
@@ -61,6 +58,7 @@ private:
 	void CreateGoomba(Vector2D position, FACING direction, float speed);
 	void UpdateGoomba(float deltaTime, SDL_Event e);
 
+	//pow block and respawn
 	bool m_screenshake;
 	float m_shake_time;
 	float m_wobble;

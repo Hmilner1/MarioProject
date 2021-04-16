@@ -3,8 +3,6 @@
 #define _GAMESCREENLEVEL2_H
 #include "GameScreen.h"
 #include "GameScreenManager.h"
-#include "GameScreenLevel1.h"
-#include "Commons.h"
 #include "Collisions.h"
 #include "Character.h"
 #include "CharacterMario.h"
@@ -31,7 +29,6 @@ public:
 
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
-	//void UpdatePowBlock();
 	void LoadMusic(string path);
 	Mix_Music* g_music = nullptr;
 
@@ -41,7 +38,6 @@ private:
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
 	LevelMap* m_level_map;
-	//PowBlock* m_pow_block;
 	vector<Koopa*> m_enemies;
 	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
@@ -64,5 +60,3 @@ private:
 	float g_respawn_time = 10.0f;
 };
 #endif
-
-

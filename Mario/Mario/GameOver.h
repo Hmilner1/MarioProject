@@ -4,13 +4,11 @@
 #include "GameScreen.h"
 #include "GameScreenManager.h"
 #include "Commons.h"
-#include <vector>
 #include <SDL_mixer.h>
 #include <SDL_TTF.h>
 #include <iostream>
-#include <sstream>
-class  Texture2D;
 
+class  Texture2D;
 class GameOver : GameScreen
 {
 public:
@@ -18,11 +16,11 @@ public:
 	~GameOver();
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
+	bool SetUpLevel();
 
 private:
 	Texture2D* m_background_texture;
 	Texture2D* m_background;
-	bool SetUpLevel();
 	TTF_Font* Retro;
 	SDL_Rect GameOverRect;
 	SDL_Rect ScoreRect;
@@ -30,4 +28,3 @@ private:
 
 };
 #endif
-

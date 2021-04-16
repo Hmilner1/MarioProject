@@ -3,29 +3,31 @@
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map)
 {
-	frame = 6;
-	m_single_sprite_w = m_texture->GetWidth() / frame;
+	//splits the sprite sheet into individual sprites
+	m_single_sprite_w = m_texture->GetWidth() / 6;
 	m_single_sprite_h = m_texture->GetHeight();
 }
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
+	//if the player is moving then move the sprite along the sheet
 	if (m_moving_left == true || m_moving_right == true)
 	{
-		frameDelay -= deltaTime;
-		if (frameDelay <= 0.0f)
+		//adds time between frames
+		frameTime -= deltaTime;
+		if (frameTime <= 0.0f)
 		{
-			frameDelay = CHARANIMATION_DELAY;
-
+			//reset time 
+			frameTime = CHARANIMATION_DELAY;
 			frame++;
-
+			//if at the end of the animation reset to the start 
 			if (frame > 3)
 			{
 				frame = 0;
 			}
 		}
 	}
-
+	//player movement controls for Mario
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -67,23 +69,26 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 	{
 		MoveRight(deltaTime);
 	}
-
+	//move to a diffrent fram if player jumps and resets once landed
 	if (m_jumping == true)
 	{
 		frame = 4;
 	}
-	else if(frame > 3 && m_jumping == false)
+	else if(m_jumping == false && frame >= 3)
 	{
 		frame = 0;
 	}
+	//calls the rest of the update
 	Character::Update(deltaTime, e);
 }
 
 void CharacterMario::Render()
 {
+	//render a single frame and works out which one is to the left of it to play next 
 	int left = m_single_sprite_w * frame;
 	SDL_Rect portion_of_sprite = { left, 0, m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
+	//flips the sprite sheet if facing a diffrent direction 
 	if (m_facing_direction == FACING_RIGHT)
 	{
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
@@ -93,20 +98,3 @@ void CharacterMario::Render()
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

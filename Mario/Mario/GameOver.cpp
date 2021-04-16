@@ -1,8 +1,5 @@
 #include "GameOver.h"
-#include "Texture2D.h"
-#include <iostream>
-#include <sstream>
-#include <string>
+
 
 GameOver::GameOver(SDL_Renderer* renderer) : GameScreen(renderer)
 {
@@ -18,8 +15,10 @@ GameOver::~GameOver()
 
 void GameOver::Render()
 {
+	//renders background 
 	m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
 
+	//handels all text on the screen 
 	Retro = TTF_OpenFont("Retro.ttf", 30);
 	SDL_Surface* text = TTF_RenderText_Solid(Retro, "GAME OVER", { 255,255,255 });
 	SDL_Texture* textTex = SDL_CreateTextureFromSurface(m_renderer, text);
@@ -56,6 +55,7 @@ void GameOver::Render()
 
 void GameOver::Update(float deltaTime, SDL_Event e)
 {
+	//allows the player to chose what they want to do next
 	switch (e.type) {
 	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
@@ -71,6 +71,7 @@ void GameOver::Update(float deltaTime, SDL_Event e)
 
 bool GameOver::SetUpLevel()
 {
+	//loads the background image in 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/GameOver.png"))
 	{
@@ -78,4 +79,3 @@ bool GameOver::SetUpLevel()
 		return false;
 	}
 }
-

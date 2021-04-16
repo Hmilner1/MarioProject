@@ -132,6 +132,3 @@ void Koopa::Turn()
 		m_moving_left = true;
 	}
 }
-
-
-

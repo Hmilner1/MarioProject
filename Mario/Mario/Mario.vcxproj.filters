@@ -63,9 +63,6 @@
     <ClCompile Include="GameScreenLevel2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameOverScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameOver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -127,9 +124,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameScreenLevel2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameOver.h">
