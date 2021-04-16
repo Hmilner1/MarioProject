@@ -256,7 +256,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 					else
 					{
 						//kill Mario
-						Mario->Dead();
+						Mario->Dead(deltaTime);
 						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
@@ -271,7 +271,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 					else
 					{
 						//kill Luigi
-						Luigi->Dead();
+						Luigi->Dead(deltaTime);
 						Mario->lifeCount = Mario->lifeCount - 1;
 					}
 				}
@@ -344,7 +344,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 				{
 
 					//kill mario
-					Mario->Dead();
+					Mario->Dead(deltaTime);
 					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_goombas[i]->GetCollisionBox()))
@@ -352,7 +352,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 
 
 					//kill mario
-					Luigi->Dead();
+					Luigi->Dead(deltaTime);
 					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 			}

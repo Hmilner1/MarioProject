@@ -65,7 +65,6 @@ private:
 	float m_shake_time;
 	float m_wobble;
 	float m_background_yPos;
-
 	float m_respawn_time = 10.0f;
 };
 #endif

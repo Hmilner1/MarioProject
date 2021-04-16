@@ -24,7 +24,7 @@ public:
 	void SetPosition(Vector2D new_position);
 	bool IsJumping() { return m_jumping; }
 	void SetAlive(bool isAlive);
-	void Dead();
+	virtual void Dead(float deltaTime);
 	bool GetAlive() { return m_alive; }
 	void CancelJump() { m_jumping = false; }
 	Vector2D GetPosition();
@@ -42,6 +42,7 @@ public:
 	int foot_position;
 	int centralX_position;
 	float m_single_sprite_w;
+	bool m_alive;
 	float m_single_sprite_h;
 private:
 protected:
@@ -51,12 +52,12 @@ protected:
 	Vector2D m_position;
 	bool m_jumping;
 	bool m_can_jump;
-	bool m_alive;
 	float m_jump_force;
 	float m_collision_radius;
 	float movement_speed;
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
+	float delay = 10;
 };
 #endif // !_CHARACTER_
 

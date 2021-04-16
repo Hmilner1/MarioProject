@@ -128,7 +128,7 @@ void Character::SetAlive(bool isAlive)
 	m_alive = isAlive;
 }
 
-void Character::Dead()
+void Character::Dead(float deltaTime)
 {
 	m_alive = false;
 	m_position.x = -1000;
