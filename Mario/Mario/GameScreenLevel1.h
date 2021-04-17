@@ -2,7 +2,6 @@
 #ifndef _GAMESCREENLEVEL1_H
 #define _GAMESCREENLEVEL1_H
 #include "GameScreen.h"
-#include "GameScreenManager.h"
 #include "Collisions.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
@@ -46,7 +45,6 @@ private:
 	SDL_Rect scoreRect;
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 	
-
 	//lvl set up and updates
 	bool SetUpLevel();
 	void SetLevelMap();

@@ -7,6 +7,7 @@ Goomba::Goomba(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D
 	m_movement_speed = movement_speed;
 	m_position = start_position;
 	m_injured = false;
+	//splits up sprite sheet
 	m_single_sprite_w = m_texture->GetWidth() / 2;
 	m_single_sprite_h = m_texture->GetHeight();
 }
@@ -20,6 +21,7 @@ Goomba::~Goomba()
 
 void Goomba::Render()
 {
+	//pushes the correct sprite to the renderer
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w,m_single_sprite_h };
 	m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
@@ -27,22 +29,22 @@ void Goomba::Render()
 
 void Goomba::Update(float deltaTime, SDL_Event e)
 {
+	//sets an animation delay between the sprites
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)
 	{
-		//reset frame delay count
+		//resets delay
 		m_frame_delay = 0.50;
-		//move the frame over
+		//pushes to next frame
 		m_current_frame++;
-		//loop frame around if it goes beyond the number of frames
+		//resets frame once its gone through the cycle 
 		if (m_current_frame > 1)
 			m_current_frame = 0;
 	}
 	Character::Update(deltaTime, e);
-	//use the code within the base class
+	//if goomba isnt damaged then allow it to walk 
 	if (!m_injured)
 	{
-		//enemy is not injured so move
 		if (m_facing_direction == FACING_LEFT)
 		{
 			m_moving_left = true;
@@ -58,6 +60,7 @@ void Goomba::Update(float deltaTime, SDL_Event e)
 
 void Goomba::TakeDamage()
 {
+	//controls what happens once damaged 
 	m_injured = true;
 	Mix_PlayChannel(-1, stompSound, 0);
 	Jump();
@@ -65,6 +68,7 @@ void Goomba::TakeDamage()
 
 void Goomba::Turn()
 {
+	//makes the goomba turn 
 	if (m_facing_direction == FACING_LEFT)
 	{
 		m_facing_direction = FACING_RIGHT;

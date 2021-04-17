@@ -1,8 +1,4 @@
-#include "Texture2D.h"
 #include "StartLevel.h"
-#include <iostream>
-#include <sstream>
-#include <string>
 
 StartLevel::StartLevel(SDL_Renderer* renderer) : GameScreen(renderer)
 {
@@ -18,8 +14,10 @@ StartLevel::~StartLevel()
 
 void StartLevel::Render()
 {
+	//redners background 
 	m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
 	
+	//handles and renders text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* text = TTF_RenderText_Solid(Retro, "Enter To Play", { 255,255,255 });
 	SDL_Texture* textTex = SDL_CreateTextureFromSurface(m_renderer, text);
@@ -56,6 +54,7 @@ void StartLevel::Render()
 
 void StartLevel::Update(float deltaTime, SDL_Event e)
 {
+	//handles user inputs 
 	switch (e.type) {
 	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
@@ -71,6 +70,7 @@ void StartLevel::Update(float deltaTime, SDL_Event e)
 
 bool StartLevel::SetUpLevel()
 {
+	//loads in the background texture and error checks it 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/Start.png"))
 	{

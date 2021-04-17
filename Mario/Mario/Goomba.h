@@ -19,7 +19,6 @@ public:
 private:
 	void MoveRight(float deltaTime) override;
 	void MoveLeft(float deltaTime) override;
-
 	float m_movement_speed;
 	bool m_injured;
 	float m_frame_delay;

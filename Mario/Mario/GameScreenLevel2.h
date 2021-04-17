@@ -2,37 +2,33 @@
 #ifndef _GAMESCREENLEVEL2_H
 #define _GAMESCREENLEVEL2_H
 #include "GameScreen.h"
-#include "GameScreenManager.h"
 #include "Collisions.h"
-#include "Character.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
 #include "Koopa.h"
 #include "Goomba.h"
 #include "Coin.h"
 #include "LevelMap.h"
-#include "PowBlock.h"
 #include <SDL_TTF.h>
 #include <vector>
 #include <SDL_mixer.h>
+
 class  Texture2D;
 class Character;
 class PowBlock;
 class GameScreenLevel1;
-
 class GameScreenLevel2 : GameScreen
 {
 
 public:
 	GameScreenLevel2(SDL_Renderer* renderer);
 	~GameScreenLevel2();
-
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void LoadMusic(string path);
-	Mix_Music* g_music = nullptr;
 
 private:
+	Mix_Music* g_music;
 	Texture2D* m_background_texture;
 	Texture2D* m_background;
 	CharacterMario* Mario;
@@ -46,6 +42,7 @@ private:
 	SDL_Rect scoreRect;
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 
+	//sets up the lvl 
 	bool SetUpLevel();
 	void SetLevelMap();
 	void UpdateEnemies(float deltaTime, SDL_Event e);

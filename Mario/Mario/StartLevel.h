@@ -2,13 +2,11 @@
 #ifndef _START_SCREEN_H
 #define _START_SCREEN_H
 #include "GameScreen.h"
-#include "GameScreenManager.h"
-#include "Commons.h"
-#include <vector>
-#include <SDL_mixer.h>
+#include "Texture2D.h"
 #include <SDL_TTF.h>
 #include <iostream>
 #include <sstream>
+
 class  Texture2D;
 
 class StartLevel : GameScreen
@@ -25,6 +23,5 @@ private:
 	bool SetUpLevel();
 	TTF_Font* Retro;
 	SDL_Rect textRect;
-
 };
 #endif

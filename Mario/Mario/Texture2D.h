@@ -5,6 +5,8 @@
 #include <string>
 #include "constants.h"
 #include "Commons.h"
+#include <SDL_image.h>
+#include <iostream>
 class Texture2D
 {
 

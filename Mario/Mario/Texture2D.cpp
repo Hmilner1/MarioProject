@@ -1,7 +1,4 @@
 #include "Texture2D.h"
-#include "constants.h"
-#include <SDL_image.h>
-#include <iostream>
 using namespace std;
 
 Texture2D::Texture2D(SDL_Renderer* renderer)
@@ -16,6 +13,7 @@ Texture2D::~Texture2D()
 
 bool Texture2D::LoadFromFile(std::string path)
 {
+	//loads the texture from the file path 
 	SDL_Surface* p_surface = IMG_Load(path.c_str());
 	if (p_surface != nullptr)
 	{
@@ -31,7 +29,6 @@ bool Texture2D::LoadFromFile(std::string path)
 			m_width = p_surface->w;
 			m_height = p_surface->h;
 		}
-		//remove the loaded surface now that we have a texture
 		SDL_FreeSurface(p_surface);
 	}
 	else
@@ -42,6 +39,7 @@ bool Texture2D::LoadFromFile(std::string path)
 }
 void Texture2D::Free()
 {
+	//clears it from memory 
 	if (m_texture != nullptr)
 	{
 		SDL_DestroyTexture(m_texture);
@@ -50,6 +48,7 @@ void Texture2D::Free()
 		m_texture = nullptr;
 	}
 }
+//render options
 void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angle)
 {
 	SDL_Rect renderLocation = { new_position.x,new_position.y,m_width,m_height};

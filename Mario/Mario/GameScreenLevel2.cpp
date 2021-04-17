@@ -1,9 +1,9 @@
 #include "GameScreenLevel2.h"
-#include <sstream>
-#include <iostream>
+
 
 GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer) : GameScreen(renderer)
 {
+	//loads the lvls music 
 	LoadMusic("Music/MarioUnderworld.mp3");
 	Mix_PlayMusic(g_music, -1);
 	
@@ -37,6 +37,7 @@ GameScreenLevel2::~GameScreenLevel2()
 
 void GameScreenLevel2::Render()
 {
+	//redner the diffrent elements 
 	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
@@ -55,12 +56,10 @@ void GameScreenLevel2::Render()
 
 	// handles rendering text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
-	//font surface 
 	SDL_Surface* Scoresurf = TTF_RenderText_Solid(Retro, (std::string("ScoreLvl2: ") + to_string(Mario->Score)).c_str(), { 255,255,255 });
 	SDL_Texture* ScoreTex = SDL_CreateTextureFromSurface(m_renderer, Scoresurf);
 	scoreRect.x = 0.0f;
 	scoreRect.y = 0.0f;
-	//renders font
 	SDL_RenderCopy(m_renderer, ScoreTex, NULL, &scoreRect);
 	SDL_QueryTexture(ScoreTex, NULL, NULL, &scoreRect.w, &scoreRect.h);
 
@@ -79,6 +78,7 @@ void GameScreenLevel2::Render()
 
 void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 {
+	//calls diffrent updates 
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
 	for (int i = 0; i < m_goombas.size(); i++)
@@ -95,6 +95,7 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 		screen = SCREEN_GAMEOVER;
 	}
 
+	//respawns enemies froma certain point 
 	k_respawn_time -= deltaTime;
 	if (k_respawn_time <= 0.0f)
 	{
@@ -111,6 +112,7 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
 
 bool GameScreenLevel2::SetUpLevel()
 {
+	//load the diffrent elements in the correct place 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/Lvl2Background.png"))
 	{
@@ -151,12 +153,10 @@ void GameScreenLevel2::SetLevelMap()
 									 { 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
-
 	if (m_level_map != nullptr)
 	{
 		delete m_level_map;
 	}
-
 	m_level_map = new LevelMap(map);
 }
 
@@ -167,24 +167,21 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 		int enemyIndexToDelete = -1;
 		for (unsigned int i = 0; i < m_enemies.size(); i++)
 		{
-			//check if the enemy is on the bottom row of tiles
+			//check if the enemy is on the bottom row of tiles and changes the characters poition if they are 
 			if (m_enemies[i]->GetPosition().y > 300.0f)
 			{
 				Mario->foot_position = Mario->foot_position - 0.0001f;
 				Luigi->foot_position = Luigi->foot_position - 0.0001f;
-				//is the enemy off screen to the left / right?
-				if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) ||
-					m_enemies[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))m_enemies[i]->SetAlive(false);
 			}
-
 			m_enemies[i]->Update(deltaTime, e);
+			//if enemies are at the edge of the screen turn them around
 			if (m_enemies[i]->GetPosition().x >= 985.0f || m_enemies[i]->GetPosition().x <= 63.0f)
 			{
 				m_enemies[i]->Turn();
 			}
 			else
 			{
-				//allows enemy to take damage when jumped on top of
+				//handles collision before enemy has been injured
 				if (!m_enemies[i]->GetInjured())
 				{
 					if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
@@ -198,11 +195,12 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 						m_enemies[i]->TakeDamage();
 					}
 				}
-				//handles player collision when not happening on top 
+				//handles collision after injured
 				if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						//kills enemy 
 						Mario->Score = Mario->Score + 200;
 						m_enemies[i]->SetAlive(false);
 						std::cout << Mario->Score << endl;
@@ -218,6 +216,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						//kills enemy 
 						Mario->Score = Mario->Score + 200;
 						m_enemies[i]->SetAlive(false);
 						std::cout << Mario->Score << endl;
@@ -230,7 +229,7 @@ void GameScreenLevel2::UpdateEnemies(float deltaTime, SDL_Event e)
 					}
 				}
 			}
-			//if no longer alive then delete
+			//if no longer alive then set them to delete
 			if (!m_enemies[i]->GetAlive())
 			{
 				std::cout << "ded" << endl;
@@ -256,10 +255,9 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 			{
 				Mario->foot_position = Mario->foot_position - 0.0001f;
 				Luigi->foot_position = Luigi->foot_position - 0.0001f;
-
-				if (m_goombas[i]->GetPosition().x < (float)(-m_goombas[i]->GetCollisionBox().width * 0.5f) || m_goombas[i]->GetPosition().x > SCREEN_WIDTH - (float)(m_goombas[i]->GetCollisionBox().width * 0.55f))m_goombas[i]->SetAlive(false);
 			}
 			m_goombas[i]->Update(deltaTime, e);
+			//checks if goomba is on the screen 
 			if (m_goombas[i]->GetPosition().x >= 985.0f || m_goombas[i]->GetPosition().x <= 63.0f)
 			{
 				m_goombas[i]->Turn();
@@ -271,6 +269,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 				{
 					if (Mario->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Mario))
 					{
+						//kills goomba when mario collides 
 						Mario->hop();
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
@@ -282,6 +281,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 					}
 					else if (Luigi->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Luigi))
 					{
+						//kills goomba when luigi collides 
 						Luigi->hop();
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
@@ -309,7 +309,7 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 			}
-			//delete dead enemy
+			//delete dead enemy when dead 
 			if (!m_goombas[i]->GetAlive())
 			{
 				std::cout << "ded" << endl;
@@ -325,25 +325,27 @@ void GameScreenLevel2::UpdateGoomba(float deltaTime, SDL_Event e)
 
 void GameScreenLevel2::UpdateCoin(float deltaTime, SDL_Event e)
 {
+	//checks to see if there is any coins left 
 	if (!m_coin.empty())
 	{
 		int coinIndexToDelete = -1;
 		for (unsigned int i = 0; i < m_coin.size(); i++)
 		{
 			m_coin[i]->Update(deltaTime, e);
+			//checks is the player has collected the coin 
 			if (Collisions::Instance()->Circle(m_coin[i], Luigi) || (Collisions::Instance()->Circle(m_coin[i], Mario)))
 			{
 				Mario->Score = Mario->Score + 100;
 				m_coin[i]->SetAlive(false);
 				Mix_PlayChannel(-1, coinSound, 0);
 				std::cout << Mario->Score << endl;
-
+				//collects the coin if there is a collision 
 				if (!m_coin[i]->GetAlive())
 				{
 					std::cout << "Collected" << endl;
 					coinIndexToDelete = i;
 				}
-				//remove dead enemies -1 each update
+				//removes the coin after collision 
 				if (coinIndexToDelete != -1)
 				{
 					m_coin.erase(m_coin.begin() + coinIndexToDelete);
@@ -353,7 +355,7 @@ void GameScreenLevel2::UpdateCoin(float deltaTime, SDL_Event e)
 	}
 }
 
-
+//sets the criteria for loading in diffrent game objects
 void GameScreenLevel2::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
 	Koopa* koopa = new Koopa(m_renderer, "Images/UKoopa.png", m_level_map, position, direction, speed);
@@ -374,6 +376,7 @@ void GameScreenLevel2::CreateGoomba(Vector2D position, FACING direction, float s
 
 void GameScreenLevel2::LoadMusic(string path)
 {
+	//allows music to be loaded into the mixer 
 	g_music = Mix_LoadMUS(path.c_str());
 	if (g_music == nullptr)
 	{

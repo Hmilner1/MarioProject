@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _POWBLOCK_
 #define _POWBLOCK_
-#include "GameScreen.h"
+//#include "GameScreen.h"
 #include "GameScreenLevel1.h"
 class PowBlock
 {

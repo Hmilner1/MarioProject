@@ -3,7 +3,7 @@
 
 LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH])
 {
-	//Allocate memory for the level map
+	//sets the map height and width
 	m_map = new int* [MAP_HEIGHT];
 	for (unsigned int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -26,10 +26,15 @@ LevelMap::~LevelMap()
 		delete[] m_map[i];
 	}
 	delete[]m_map;
+	for (unsigned int i = 0; i < MAP_WIDTH; i++)
+	{
+		delete[] m_map[i];
+	}
 }
 
 int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 {
+	//checks what the tile is at a certian point and returns it 
 	if (h < MAP_HEIGHT && w < MAP_WIDTH)
 	{
 		return m_map[h][w];
@@ -39,5 +44,6 @@ int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 
 void LevelMap::ChangeTileAt(unsigned int row, unsigned int column, unsigned int new_value)
 {
+	//changes tile for new one at a certain point 
 	m_map[row][column] = new_value;
 }

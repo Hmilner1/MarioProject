@@ -4,17 +4,13 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "constants.h"
-#include "Texture2D.h"
-#include "Commons.h"
 #include"GameScreenManager.h"
 
-using namespace std;
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
 GameScreenManager* game_screen_manager;
 Mix_Music* g_music = nullptr;
 Uint32 g_old_time;
-
 bool InitSDL();
 void CLoseSDL();
 bool Update();
@@ -25,6 +21,7 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
+		//loads first lvl and music 
 		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
 		LoadMusic("Music/Mario.mp3");
 		if (Mix_PlayingMusic() == 0)
@@ -32,8 +29,7 @@ int main(int argc, char* args[])
 			Mix_PlayMusic(g_music, -1);
 		}
 		g_old_time = SDL_GetTicks();
-		
-		//set the time
+		//allows game to quit 
 		bool quit = false;
 		while (!quit)
 		{
@@ -79,6 +75,7 @@ bool InitSDL()
 	{
 		cout << "Error" << endl;
 	}
+	//created renderer
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_renderer != nullptr)
 	{
@@ -116,8 +113,8 @@ void CLoseSDL()
 
 bool Update()
 {
+	//event handler allowing player to close the game 
 	Uint32 new_time = SDL_GetTicks();
-	//event handler 
 	SDL_Event e;
 	SDL_PollEvent(&e);
 	switch (e.type)
@@ -138,7 +135,7 @@ bool Update()
 		}
 		}
 	}
-
+	//calls screen manger update
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
 	return false;

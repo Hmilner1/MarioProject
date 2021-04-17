@@ -1,6 +1,4 @@
 #include "GameScreen.h"
-#include "Texture2D.h"
-#include <iostream>
 
 GameScreen::GameScreen(SDL_Renderer* renderer)
 {
