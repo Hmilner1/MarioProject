@@ -57,8 +57,6 @@ void Koopa::Update(float deltaTime, SDL_Event e)
 	}
 	else if(m_injured)
 	{
-		m_moving_right = false;
-		m_moving_left = false;
 		//countdown before the koopa can flip the correct way again 
 		m_injured_time -= deltaTime;
 		if (m_injured_time <= 0.0f)
@@ -74,6 +72,8 @@ void Koopa::TakeDamage()
 	m_injured = true;
 	Jump();
 	Mix_PlayChannel(-1, stompSound, 0);
+	m_moving_right = false;
+	m_moving_left = false;
 	m_injured_time = INJURED_TIME;
 }
 

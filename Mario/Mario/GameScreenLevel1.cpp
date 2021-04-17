@@ -260,10 +260,25 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						m_enemies[i]->m_facing_direction = Mario->m_facing_direction;
+						if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
+						{
+							m_enemies[i]->m_moving_right = true;
+							m_enemies[i]->m_moving_left = false;
+						}
+						if (m_enemies[i]->m_facing_direction == FACING_LEFT)
+						{
+							m_enemies[i]->m_moving_right = false;
+							m_enemies[i]->m_moving_left = true;
+						}
 						//kills enemey
-						Mario->Score = Mario->Score + 200;
-						m_enemies[i]->SetAlive(false);
-						std::cout << Mario->Score << endl;
+						if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
+						{
+							//kills enemey
+							Mario->Score = Mario->Score + 200;
+							m_enemies[i]->SetAlive(false);
+							std::cout << Mario->Score << endl;
+						}
 					}
 					else
 					{
@@ -276,10 +291,25 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				{
 					if (m_enemies[i]->GetInjured())
 					{
+						m_enemies[i]->m_facing_direction = Luigi->m_facing_direction;
+						if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
+						{
+							m_enemies[i]->m_moving_right = true;
+							m_enemies[i]->m_moving_left = false;
+						}
+						if (m_enemies[i]->m_facing_direction == FACING_LEFT)
+						{
+							m_enemies[i]->m_moving_right = false;
+							m_enemies[i]->m_moving_left = true;
+						}
 						//kills enemey
-						Mario->Score = Mario->Score + 200;
-						m_enemies[i]->SetAlive(false);
-						std::cout << Mario->Score << endl;
+						if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
+						{
+							//kills enemey
+							Mario->Score = Mario->Score + 200;
+							m_enemies[i]->SetAlive(false);
+							std::cout << Mario->Score << endl;
+						}
 					}
 					else
 					{

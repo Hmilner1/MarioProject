@@ -41,18 +41,18 @@ public:
 	void Dead(float deltaTime);
 	void SetAlive(bool isAlive);
 	bool GetAlive() { return m_alive; }
+	FACING m_facing_direction;
+	Vector2D m_position;
+	bool m_moving_left;
+	bool m_moving_right;
 
 private:
 	//music
 	Mix_Chunk* jumpSound = Mix_LoadWAV("Music/Jump.wav");
 protected:
 	//player movement
-	FACING m_facing_direction;
-	Vector2D m_position;
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
-	bool m_moving_left;
-	bool m_moving_right;
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;
