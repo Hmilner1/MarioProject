@@ -110,12 +110,22 @@ void Koopa::MoveLeft(float deltaTime)
 {
 	m_facing_direction = FACING_LEFT;
 	m_position.x -= m_movement_speed * deltaTime;
+	if (m_injured)
+	{
+		m_facing_direction = FACING_LEFT;
+		m_position.x -= 100 * deltaTime;
+	}
 }
 
 void Koopa::MoveRight(float deltaTime)
 {
 	m_facing_direction = FACING_RIGHT;
 	m_position.x += m_movement_speed * deltaTime;
+	if (m_injured)
+	{
+		m_facing_direction = FACING_RIGHT;
+		m_position.x += 100 * deltaTime;
+	}
 }
 
 void Koopa::Turn()
