@@ -42,7 +42,6 @@ public:
 	void SetAlive(bool isAlive);
 	bool GetAlive() { return m_alive; }
 	FACING m_facing_direction;
-	Vector2D m_position;
 	bool m_moving_left;
 	bool m_moving_right;
 
@@ -53,6 +52,7 @@ protected:
 	//player movement
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
+	Vector2D m_position;
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;

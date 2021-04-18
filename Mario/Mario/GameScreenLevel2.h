@@ -40,7 +40,9 @@ private:
 	TTF_Font* Retro;
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
+	//sounds
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
+	Mix_Chunk* stompSound = Mix_LoadWAV("Music/Stomp.wav");
 
 	//sets up the lvl 
 	bool SetUpLevel();

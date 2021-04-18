@@ -133,6 +133,31 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	{
 		screen = SCREEN_LEVEL2;
 	}
+
+	//handles the shell collision
+	for (unsigned int i = 0; i < m_enemies.size(); i++)
+	{
+		for (unsigned int j = 0; j < m_goombas.size(); j++)
+		{
+			if (m_enemies[i]->GetInjured() && Collisions::Instance()->Circle(m_enemies[i], m_goombas[j]))
+			{
+				Mario->Score = Mario->Score + 200;
+				m_goombas[j]->SetAlive(false);
+				Mix_PlayChannel(-1, stompSound, 0);
+				std::cout << Mario->Score << endl;
+			}
+		}
+		for (unsigned int j = 0; j < m_enemies.size(); j++)
+		{
+			if (m_enemies[i]->GetInjured() && !m_enemies[j]->GetInjured() && Collisions::Instance()->Circle(m_enemies[i], m_enemies[j]))
+			{
+					Mario->Score = Mario->Score + 200;
+					m_enemies[j]->SetAlive(false);
+					Mix_PlayChannel(-1, stompSound, 0);
+					std::cout << Mario->Score << endl;
+			}
+		}
+	}
 }
 
 bool GameScreenLevel1::SetUpLevel()
@@ -235,7 +260,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 			m_enemies[i]->Update(deltaTime, e);
 			//check if enimes are at the maps boundies and turns them if they are 
-			if(m_enemies[i]->GetPosition().x >= 928.0f || m_enemies[i]->GetPosition().x <= 0.0f)
+			if(m_enemies[i]->GetPosition().x > 925.0f || m_enemies[i]->GetPosition().x <= 0.0f)
 			{
 				m_enemies[i]->Turn();
 			}
