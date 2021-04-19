@@ -10,7 +10,6 @@ Coin::Coin(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D sta
 	//splits up sprite sheet 
 	m_single_sprite_w = m_texture->GetWidth() / 3;
 	m_single_sprite_h = m_texture->GetHeight();
-
 }
 
 Coin::~Coin()
