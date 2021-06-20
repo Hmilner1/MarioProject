@@ -65,12 +65,28 @@ void GameScreenManager::ChangeScreen(SCREENS new_Screen)
 		delete lvl2Screen;
 		break;
 
+	case SCREEN_CONTROLS:
+		ControlsScreen* contrScreen;
+		contrScreen = new ControlsScreen(m_renderer);
+		m_current_screen = (GameScreen*)contrScreen;
+		contrScreen = nullptr;
+		delete contrScreen;
+		break;
+			
 	case SCREEN_GAMEOVER:
 		GameOver* EndScreen;
 		EndScreen = new GameOver(m_renderer);
 		m_current_screen = (GameScreen*)EndScreen;
 		EndScreen = nullptr;
 		delete EndScreen;
+		break;
+
+	case SCREEN_HIGHSCORES:
+		ScoreScreen* scoreScreen;
+		scoreScreen = new ScoreScreen(m_renderer);
+		m_current_screen = (GameScreen*)scoreScreen;
+		scoreScreen = nullptr;
+		delete scoreScreen;
 		break;
 	}
 }

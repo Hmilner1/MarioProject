@@ -15,7 +15,7 @@ class Character
 public:
 	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map);
 	~Character();
-	virtual void Render();
+	virtual void Render(int x, int y);
 	virtual void Update(float deltaTime, SDL_Event e);
 	//player events
 	virtual void AddGravity(float deltaTime);
@@ -36,6 +36,10 @@ public:
 	Vector2D GetPosition();
 	int foot_position;
 	int centralX_position;
+	int head_position;
+	int rightSidePositionInGrid;
+	int leftSidePositionInGrid;
+	int centralYPositionInGrid;
 	//controls if character is alive
 	bool m_alive;
 	void Dead(float deltaTime);
@@ -44,6 +48,7 @@ public:
 	FACING m_facing_direction;
 	bool m_moving_left;
 	bool m_moving_right;
+	void SetPosition(Vector2D newPosition);
 
 private:
 	//music
@@ -63,5 +68,14 @@ protected:
 	//collision
 	float m_collision_radius;
 	LevelMap* m_current_level_map;
+	float mSingleSpriteWidth;
+	float mSingleSpriteHeight;
+
+	int frame;
+	float curFrameTime;
+	int frameCount;
+	int jumpFrame;
+	bool canMove;
+
 };
 #endif

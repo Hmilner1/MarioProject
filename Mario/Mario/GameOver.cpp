@@ -22,7 +22,7 @@ void GameOver::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 30);
 	SDL_Surface* text = TTF_RenderText_Solid(Retro, "GAME OVER", { 255,255,255 });
 	SDL_Texture* textTex = SDL_CreateTextureFromSurface(m_renderer, text);
-	GameOverRect.x = 415.0f;
+	GameOverRect.x = 250.0f;
 	GameOverRect.y = 200.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, textTex, NULL, &GameOverRect);
@@ -33,7 +33,7 @@ void GameOver::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* Tut = TTF_RenderText_Solid(Retro, "1 SCORES", { 255,255,255 });
 	SDL_Texture* TutTex = SDL_CreateTextureFromSurface(m_renderer, Tut);
-	ScoreRect.x = 440.0f;
+	ScoreRect.x = 280.0f;
 	ScoreRect.y = 250.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, TutTex, NULL, &ScoreRect);
@@ -44,7 +44,7 @@ void GameOver::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* Exit = TTF_RenderText_Solid(Retro, "2 PLAY AGAIN", { 255,255,255 });
 	SDL_Texture* ExitTex = SDL_CreateTextureFromSurface(m_renderer, Exit);
-	PlayRect.x = 425.0f;
+	PlayRect.x = 260.0f;
 	PlayRect.y = 300.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, ExitTex, NULL, &PlayRect);
@@ -62,6 +62,9 @@ void GameOver::Update(float deltaTime, SDL_Event e)
 		{
 		case SDLK_2:
 			screen = SCREEN_LEVEL1;
+			break;
+		case SDLK_1:
+			screen = SCREEN_HIGHSCORES;
 			break;
 		default:
 			break;

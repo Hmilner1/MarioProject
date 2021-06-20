@@ -9,6 +9,10 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "LevelMap.h"
+#include "PowBlock.h"
+#include "TileMap.h"
+#include "Blocks.h"
+#include "Camera.h"
 #include <SDL_TTF.h>
 #include <vector>
 #include <SDL_mixer.h>
@@ -33,13 +37,14 @@ private:
 	Texture2D* m_background;
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
-	LevelMap* m_level_map;
+	LevelMap* m_level_map2;
 	vector<Koopa*> m_enemies;
 	vector<Goomba*> m_goombas;
 	vector<Coin*> m_coin;
 	TTF_Font* Retro;
 	SDL_Rect textRect;
 	SDL_Rect scoreRect;
+	TileMap* tileMap;
 	//sounds
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 	Mix_Chunk* stompSound = Mix_LoadWAV("Music/Stomp.wav");
@@ -53,9 +58,16 @@ private:
 	void UpdateCoin(float deltaTime, SDL_Event e);
 	void CreateGoomba(Vector2D position, FACING direction, float speed);
 	void UpdateGoomba(float deltaTime, SDL_Event e);
+	void SortScore();
+	void HandleViewportCollision();
+	void UpdateCameraPosition();
+	void SetUpTileMap();
+	void UpdateLuckyBlock(float deltaTime, SDL_Event e);
+	void CheckWin();
+	void OnMapCheck(float deltaTime, SDL_Event e);
 
 	float m_background_yPos;
-	float k_respawn_time = 10.0f;
-	float g_respawn_time = 10.0f;
+	int highScore;
+	float mLastCamXPos;
 };
 #endif

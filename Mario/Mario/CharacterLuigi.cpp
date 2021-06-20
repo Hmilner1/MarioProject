@@ -83,7 +83,7 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 	Character::Update(deltaTime, e);
 }
 
-void CharacterLuigi::Render()
+void CharacterLuigi::Render(int camX, int camY)
 {
 	//render a single frame and works out which one is to the left of it to play next 
 	int left = m_single_sprite_w * frame;
@@ -92,10 +92,10 @@ void CharacterLuigi::Render()
 	//flips the sprite sheet if facing a diffrent direction 
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portion_of_sprite, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
 	}
 	else if (m_facing_direction == FACING_LEFT)
 	{
-		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portion_of_sprite, 0.0, nullptr, SDL_FLIP_NONE);
 	}
 }

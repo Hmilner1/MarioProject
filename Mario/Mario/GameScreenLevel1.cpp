@@ -1,4 +1,6 @@
 #include "GameScreenLevel1.h"
+#include <fstream>
+#include "Camera.h"
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer)
 {
@@ -40,23 +42,26 @@ GameScreenLevel1::~GameScreenLevel1()
 void GameScreenLevel1::Render()
 {
 	//renders game assets
-	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
+	m_background_texture->Render(Vector2D(-100 - Camera::GetInstance()->GetPosition().x, m_background_yPos), SDL_FLIP_NONE);
+
+	// Render all tiles
+	tileMap->DrawTileMap();
+
+	Mario->Render(Camera::GetInstance()->GetPosition().x, Camera::GetInstance()->GetPosition().y);
+	Luigi->Render(Camera::GetInstance()->GetPosition().x, Camera::GetInstance()->GetPosition().y);
 	for (int i = 0; i < m_goombas.size(); i++)
 	{
-		m_goombas[i]->Render();
+		m_goombas[i]->Render(Camera::GetInstance()->GetPosition().x, Camera::GetInstance()->GetPosition().y);
 	}
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
-		m_enemies[i]->Render();
+		m_enemies[i]->Render(Camera::GetInstance()->GetPosition().x, Camera::GetInstance()->GetPosition().y);
 
 	}
 	for (int i = 0; i < m_coin.size(); i++)
 	{
-		m_coin[i]->Render();
+		m_coin[i]->Render(Camera::GetInstance()->GetPosition().x, Camera::GetInstance()->GetPosition().y);
 	}
-	Mario->Render();
-	m_pow_block->Render();
-	Luigi->Render();
 
 	// handles rendering text 
 	Retro = TTF_OpenFont("Retro.ttf", 20);
@@ -69,7 +74,7 @@ void GameScreenLevel1::Render()
 
 	SDL_Surface* Lives = TTF_RenderText_Solid(Retro, (std::string("Lives: ") + to_string(Mario->lifeCount)).c_str(), { 0,0,0 });
 	SDL_Texture* LivesTex = SDL_CreateTextureFromSurface(m_renderer, Lives);
-	textRect.x = 900.0f;
+	textRect.x = 550.0f;
 	textRect.y = 0.0f;
 	//clears the texts memory 
 	TTF_CloseFont(Retro);
@@ -83,18 +88,19 @@ void GameScreenLevel1::Render()
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
+	cout << m_level_map->GetTileAt(Mario->foot_position + 1.0f, Mario->centralX_position) << endl;
 	//player
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
 	//enimes
-	for (int i = 0; i < m_goombas.size(); i++)
-	{
-		m_goombas[i]->Update(deltaTime, e);
-	}
-	UpdatePowBlock(); 
 	UpdateEnemies(deltaTime, e);
 	UpdateGoomba(deltaTime, e);
 	UpdateCoin(deltaTime, e);
+	UpdateLuckyBlock(deltaTime, e);
+	HandleViewportCollision();
+	UpdateCameraPosition();
+	CheckWin();
+	OnMapCheck(deltaTime, e);
 
 	// pow block screen shake
 	if (m_screenshake)
@@ -110,30 +116,12 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 			m_background_yPos = 0.0f;
 		}
 	}
-	//respawns enimies from pipe position after time period
-	m_respawn_time -= deltaTime;
-	if (m_respawn_time <= 0.0f)
-	{
-		CreateKoopa(Vector2D(608, 32), FACING_RIGHT, KOOPA_SPEED);
-		CreateGoomba(Vector2D(576, 32), FACING_RIGHT, 20.0f);
-		m_respawn_time = RESPAWN;
-	}
 
 	//resets lvl if there are no lives left
 	if (Mario->lifeCount == 0)
 	{
 		screen = SCREEN_GAMEOVER;
 	}
-	//if players move through pipe tekes them to next lvl
-	if (Mario->GetAlive() == true && Mario->GetPosition().x > 928.0f && Mario->GetPosition().y > 320.0f )
-	{
-		screen = SCREEN_LEVEL2;
-	}
-	else if(Luigi->GetAlive() == true && Luigi->GetPosition().x > 928.0f && Luigi->GetPosition().y > 320.0f)
-	{
-		screen = SCREEN_LEVEL2;
-	}
-
 	//handles the shell collision
 	for (unsigned int i = 0; i < m_enemies.size(); i++)
 	{
@@ -164,29 +152,32 @@ bool GameScreenLevel1::SetUpLevel()
 {
 	//loads in background 
 	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/Lvl1Background.png"))
+	if (!m_background_texture->LoadFromFile("Images/Background.png"))
 	{
 		std::cout << "Failed to load backgorund texture!" << std::endl;
 		return false;
 	}
 	//payers
-	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(64, 250), m_level_map);
-	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(64, 250), m_level_map);
+	Mario = new CharacterMario(m_renderer, "Images/MarioSheet.png", Vector2D(50, 342), m_level_map);
+	Luigi = new CharacterLuigi(m_renderer, "Images/LuigiSheet.png", Vector2D(50, 342), m_level_map);
+
+	SetUpTileMap();
 
 	//inital enemies
-	CreateKoopa(Vector2D(608, 32), FACING_RIGHT, KOOPA_SPEED); 
-	CreateGoomba(Vector2D(500, 0), FACING_RIGHT, 20.0f);
-	//coins 
-	CreateCoin(Vector2D(226, 256));
-	CreateCoin(Vector2D(194, 256));
-	CreateCoin(Vector2D(162, 256));
-	CreateCoin(Vector2D(290, 256));
-	CreateCoin(Vector2D(321, 256));
-	CreateCoin(Vector2D(354, 256));
+	//CreateKoopa(Vector2D(1708, 102), FACING_RIGHT, KOOPA_SPEED); 
+	//CreateKoopa(Vector2D(2370, -402), FACING_RIGHT, KOOPA_SPEED);
+	CreateGoomba(Vector2D(480, 354), FACING_LEFT, 45.0f);
+	CreateGoomba(Vector2D(1429, 354), FACING_LEFT, 45.0f);
+	CreateGoomba(Vector2D(1488, 354), FACING_LEFT, 45.0f);
+	CreateGoomba(Vector2D(3700, 354), FACING_LEFT, 45.0f);
+	CreateGoomba(Vector2D(3773, 354), FACING_LEFT, 45.0f);
+	CreateKoopa(Vector2D(3600, 354), FACING_LEFT, KOOPA_SPEED);
+	CreateGoomba(Vector2D(5200, 354), FACING_LEFT, 45.0f);
+	CreateGoomba(Vector2D(5270, 354), FACING_LEFT, 45.0f);
+	CreateKoopa(Vector2D(5270, 354), FACING_LEFT, KOOPA_SPEED);
+	
 
-	//loads PowBlock
-	m_pow_block = new PowBlock(m_renderer, m_level_map);
-
+	
 	//screen shake 
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
@@ -195,53 +186,25 @@ bool GameScreenLevel1::SetUpLevel()
 void GameScreenLevel1::SetLevelMap()
 {
 	//sets up lvl map
-	int map[MAP_HEIGHT][MAP_WIDTH] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-									 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-									 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }};
+	int map[MAP_HEIGHT][MAP_WIDTH] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} };
+
 	if (m_level_map != nullptr)
 	{
 		delete m_level_map;
 	}
 	m_level_map = new LevelMap(map);
-}
-
-void GameScreenLevel1::UpdatePowBlock()
-{
-	//collision Mario
-	if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_pow_block->GetCollisionBox()) && m_pow_block->IsAvailable())
-	{
-		std::cout << "Box hit" << endl;
-		//collided while jumping
-		if (Mario->IsJumping())
-		{
-			DoScreenshake();
-			m_pow_block->TakeHit();
-			Mario->CancelJump();
-		}
-	}
-
-	//collision Luigi
-	if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_pow_block->GetCollisionBox()) && m_pow_block->IsAvailable())
-	{
-		std::cout << "Box hit" << endl;
-		//collided while jumping
-		if (Luigi->IsJumping())
-		{
-			DoScreenshake();
-			m_pow_block->TakeHit();
-			Luigi->CancelJump();
-		}
-	}
 }
 
 void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
@@ -259,91 +222,84 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 				Luigi->foot_position = Luigi->foot_position - 0.0001f;
 			}
 			m_enemies[i]->Update(deltaTime, e);
-			//check if enimes are at the maps boundies and turns them if they are 
-			if(m_enemies[i]->GetPosition().x > 925.0f || m_enemies[i]->GetPosition().x <= 0.0f)
+			//allows enemy to take damage when jumped on top of
+			if (!m_enemies[i]->GetInjured())
 			{
-				m_enemies[i]->Turn();
-			}
-			else
-			{
-				//allows enemy to take damage when jumped on top of
-				if (!m_enemies[i]->GetInjured())
+				if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
 				{
+					Mario->hop();
+					m_enemies[i]->TakeDamage();
+				}
+				else if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
+				{
+					Luigi->hop();
+					m_enemies[i]->TakeDamage();
+				}
+			}
+			//player collision after being damaged 
+			if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
+			{
+				if (m_enemies[i]->GetInjured())
+				{
+					m_enemies[i]->m_facing_direction = Mario->m_facing_direction;
+					if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
+					{
+						m_enemies[i]->m_moving_right = true;
+						m_enemies[i]->m_moving_left = false;
+					}
+					if (m_enemies[i]->m_facing_direction == FACING_LEFT)
+					{
+						m_enemies[i]->m_moving_right = false;
+						m_enemies[i]->m_moving_left = true;
+					}
+					//kills enemey
 					if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
 					{
-						Mario->hop();
-						m_enemies[i]->TakeDamage();
-					}
-					else if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
-					{
-						Luigi->hop();
-						m_enemies[i]->TakeDamage();
+						//kills enemey
+						Mario->Score = Mario->Score + 200;
+						m_enemies[i]->SetAlive(false);
+						std::cout << Mario->Score << endl;
 					}
 				}
-				//player collision after being damaged 
-				if (Collisions::Instance()->Box(Mario->GetCollisionBox(),m_enemies[i]->GetCollisionBox()))
+				else
 				{
-					if (m_enemies[i]->GetInjured())
-					{
-						m_enemies[i]->m_facing_direction = Mario->m_facing_direction;
-						if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
-						{
-							m_enemies[i]->m_moving_right = true;
-							m_enemies[i]->m_moving_left = false;
-						}
-						if (m_enemies[i]->m_facing_direction == FACING_LEFT)
-						{
-							m_enemies[i]->m_moving_right = false;
-							m_enemies[i]->m_moving_left = true;
-						}
-						//kills enemey
-						if (Mario->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Mario))
-						{
-							//kills enemey
-							Mario->Score = Mario->Score + 200;
-							m_enemies[i]->SetAlive(false);
-							std::cout << Mario->Score << endl;
-						}
-					}
-					else
-					{
-						//kill Mario
-						Mario->Dead(deltaTime);
-						Mario->lifeCount = Mario->lifeCount - 1;
-					}
-				}
-				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
-				{
-					if (m_enemies[i]->GetInjured())
-					{
-						m_enemies[i]->m_facing_direction = Luigi->m_facing_direction;
-						if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
-						{
-							m_enemies[i]->m_moving_right = true;
-							m_enemies[i]->m_moving_left = false;
-						}
-						if (m_enemies[i]->m_facing_direction == FACING_LEFT)
-						{
-							m_enemies[i]->m_moving_right = false;
-							m_enemies[i]->m_moving_left = true;
-						}
-						//kills enemey
-						if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
-						{
-							//kills enemey
-							Mario->Score = Mario->Score + 200;
-							m_enemies[i]->SetAlive(false);
-							std::cout << Mario->Score << endl;
-						}
-					}
-					else
-					{
-						//kill Luigi
-						Mario->lifeCount = Mario->lifeCount - 1;
-						Luigi->Dead(deltaTime);
-					}
+					//kill Mario
+					Mario->Dead(deltaTime);
+					Mario->lifeCount = Mario->lifeCount - 1;
 				}
 			}
+			else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_enemies[i]->GetCollisionBox()))
+			{
+				if (m_enemies[i]->GetInjured())
+				{
+					m_enemies[i]->m_facing_direction = Luigi->m_facing_direction;
+					if (m_enemies[i]->m_facing_direction == FACING_RIGHT)
+					{
+						m_enemies[i]->m_moving_right = true;
+						m_enemies[i]->m_moving_left = false;
+					}
+					if (m_enemies[i]->m_facing_direction == FACING_LEFT)
+					{
+						m_enemies[i]->m_moving_right = false;
+						m_enemies[i]->m_moving_left = true;
+					}
+					//kills enemey
+					if (Luigi->foot_position < m_enemies[i]->foot_position && Collisions::Instance()->Circle(m_enemies[i], Luigi))
+					{
+						//kills enemey
+						Mario->Score = Mario->Score + 200;
+						m_enemies[i]->SetAlive(false);
+						std::cout << Mario->Score << endl;
+					}
+				}
+				else
+				{
+					//kill Luigi
+					Mario->lifeCount = Mario->lifeCount - 1;
+					Luigi->Dead(deltaTime);
+				}
+			}
+
 			//if no longer alive then delete
 			if (!m_enemies[i]->GetAlive())
 			{
@@ -365,77 +321,78 @@ void GameScreenLevel1::UpdateGoomba(float deltaTime, SDL_Event e)
 		int enemyIndexToDelete = -1;
 		for (unsigned int i = 0; i < m_goombas.size(); i++)
 		{
-			//check if the enemy is on the bottom row of tiles 
 			if (m_goombas[i]->GetPosition().y > 300.0f)
 			{
-				//allows players to interact with enemies if there on the bottom row 
-				Mario->foot_position = Mario->foot_position - 0.0001f;
-				Luigi->foot_position = Luigi ->foot_position - 0.0001f;
+				//allows player to kill enimies on the bottom row
+
 			}
 			m_goombas[i]->Update(deltaTime, e);
-			//turns enemies around if they go out of bounds 
-			if (m_goombas[i]->GetPosition().x >= 928.0f || m_goombas[i]->GetPosition().x <= 0.0f)
-			{
-				m_goombas[i]->Turn();
-			}
-			else
 			{
 				if (!m_goombas[i]->GetInjured())
 				{
 					//checks if player collides with enemy then decides what to do 
-					if (Mario->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Mario))
+					//mario
+					if (Collisions::Instance()->Circle(Mario, m_goombas[i]) && Mario->foot_position < m_goombas[i]->head_position)
 					{
 						//kill enemy 
 						Mario->hop();
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
 						{
+							cout << m_goombas[i]->GetPosition().y << endl;
+							cout << Mario->foot_position << endl;
+							cout << m_goombas[i]->head_position << endl;
 							Mario->Score = Mario->Score + 200;
 							m_goombas[i]->SetAlive(false);
 							std::cout << Mario->Score << endl;
 						}
 					}
-					else if (Luigi->foot_position < m_goombas[i]->foot_position && Collisions::Instance()->Circle(m_goombas[i], Luigi))
+					//side collision
+					if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_goombas[i]->GetCollisionBox()) && Mario->foot_position <= m_goombas[i]->head_position)
 					{
-						//kill enemy
+						cout << Mario->foot_position << endl;
+						cout << m_goombas[i]->head_position << endl;
+						//kill mario
+						Mario->Dead(deltaTime);
+						Mario->lifeCount = Mario->lifeCount - 1;
+					}
+					//luigi
+					if (Collisions::Instance()->Circle(Luigi, m_goombas[i]) && Luigi->foot_position < m_goombas[i]->head_position)
+					{
+						//kill enemy 
 						Luigi->hop();
 						m_goombas[i]->TakeDamage();
 						if (m_goombas[i]->GetInjured())
 						{
+							cout << Luigi->foot_position << endl;
+							cout << m_goombas[i]->head_position << endl;
 							Mario->Score = Mario->Score + 200;
 							m_goombas[i]->SetAlive(false);
 							std::cout << Mario->Score << endl;
 						}
 					}
-				}
-				//side collision
-				if (Collisions::Instance()->Box(Mario->GetCollisionBox(), m_goombas[i]->GetCollisionBox()))
-				{
-
-					//kill mario
-					Mario->Dead(deltaTime);
-					Mario->lifeCount = Mario->lifeCount - 1;
-				}
-				else if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_goombas[i]->GetCollisionBox()))
-				{
-
-
-					//kill mario
-					Luigi->Dead(deltaTime);
-					Mario->lifeCount = Mario->lifeCount - 1;
+					//side collision
+					if (Collisions::Instance()->Box(Luigi->GetCollisionBox(), m_goombas[i]->GetCollisionBox()) && Luigi->foot_position <= m_goombas[i]->head_position)
+					{
+						cout << Luigi->foot_position << endl;
+						cout << m_goombas[i]->head_position << endl;
+						//kill mario
+						Luigi->Dead(deltaTime);
+						Mario->lifeCount = Mario->lifeCount - 1;
+					}
 				}
 			}
-			//delete dead enemy
-			if (!m_goombas[i]->GetAlive())
+				//delete dead enemy
+				if (!m_goombas[i]->GetAlive())
+				{
+					std::cout << "ded" << endl;
+					enemyIndexToDelete = i;
+				}
+				}
+			if (enemyIndexToDelete != -1)
 			{
-				std::cout << "ded" << endl;
-				enemyIndexToDelete = i;
+				m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
 			}
-		}
-		if (enemyIndexToDelete != -1)
-		{
-			m_goombas.erase(m_goombas.begin() + enemyIndexToDelete);
-		}
 	}
 }
 
@@ -470,6 +427,28 @@ void GameScreenLevel1::UpdateCoin(float deltaTime, SDL_Event e)
 	}
 }
 
+void GameScreenLevel1::SortScore()
+{
+	std::ifstream indata("HighScores.txt");
+
+	indata >> highScore;
+	indata.close();
+
+	if (Mario->Score > highScore)
+	{
+		std::ofstream outfile;
+		outfile.open("HighScores.txt");
+
+		if (!outfile.is_open())
+		{
+			sdt:cout << "save file could not be opened" << endl;
+			std::exit(1);
+		}
+		outfile << Mario->Score << std::endl;
+		outfile.close();
+	}
+}
+
 void GameScreenLevel1::DoScreenshake() 
 {
 	//screen shake when pow block is hit 
@@ -487,6 +466,164 @@ void GameScreenLevel1::DoScreenshake()
 		Mario->Score = Mario->Score + 200;
 		std::cout << Mario->Score << endl;
 		m_goombas[i]->SetAlive(false);
+	}
+}
+
+
+void GameScreenLevel1::HandleViewportCollision()
+{
+	if (Mario->m_alive)
+	{
+		if (Mario->GetPosition().x <= Camera::GetInstance()->GetCameraBounds().x)
+		{
+			Mario->SetPosition(Vector2D(Mario->GetPosition().x + 1, Mario->GetPosition().y));
+		}
+	}
+	else if (Luigi->m_alive)
+	{
+		if (Luigi->GetPosition().x <= Camera::GetInstance()->GetCameraBounds().x)
+		{
+			Luigi->SetPosition(Vector2D(Luigi->GetPosition().x + 1, Luigi->GetPosition().y));
+		}
+	}
+}
+
+void GameScreenLevel1::UpdateCameraPosition()
+{
+	if (Mario->m_alive)
+	{
+		if ((Mario->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2 > mLastCamXPos)
+		{
+			Camera::GetInstance()->SetPosition(Vector2D((Mario->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2, m_background_yPos));
+			mLastCamXPos = (Mario->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2;
+		}
+	}
+	else if (Luigi->m_alive)
+	{
+		if (Luigi->GetPosition().x <= Camera::GetInstance()->GetCameraBounds().x)
+		{
+			Camera::GetInstance()->SetPosition(Vector2D((Luigi->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2, m_background_yPos));
+			mLastCamXPos = (Luigi->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2;
+		}
+
+		if ((Luigi->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2 > mLastCamXPos)
+		{
+			Camera::GetInstance()->SetPosition(Vector2D((Luigi->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2, m_background_yPos));
+			mLastCamXPos = (Luigi->GetPosition().x + 32 / 2) - CAMERA_WIDTH / 2;
+		}
+	}
+}
+
+void GameScreenLevel1::SetUpTileMap()
+{
+	// Read file
+	std::ifstream file("Maps/level1.txt");
+
+	// Get column length
+	int rows = 0;
+	int columns = 0;
+	std::string line;
+	if (file.is_open())
+	{
+		while (std::getline(file, line))
+			rows++;
+	}
+
+	// Assuming the width is fixed, get column count
+	for (int x = 0; x < line.length(); x++)
+	{
+		if (line[x] != ' ')
+			columns++;
+	}
+
+	char** map;
+	map = new char* [rows];
+
+	// Predefine map
+	for (unsigned int i = 0; i < rows; i++)
+		map[i] = new char[columns];
+
+	// Hop back to the beginning of the file
+	file.clear();
+	file.seekg(0, std::ios::beg);
+
+	for (int row = 0; row < rows; row++)
+	{
+		for (int column = 0; column < columns; column++)
+		{
+			file >> map[row][column];
+		}
+	}
+
+	file.close();
+
+	// Create new TileMap
+	tileMap = new TileMap(m_renderer);
+	tileMap->GenerateTileMap(map, rows, columns);
+}
+
+void GameScreenLevel1::UpdateLuckyBlock(float deltaTime, SDL_Event e)
+{
+	if (tileMap->GetTileAt(Mario->centralX_position, Mario->head_position) != nullptr)
+	{
+		if (tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock() != nullptr)
+		{
+			if (tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock()->GetBlockType() == Blocks::BlockType::BLOCK_LUCKY)
+			{
+				if (tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock()->IsAvailable())
+				{
+					// Collision, spawn coin and set question mark block to unavailable
+					tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock()->SetAvailable(false);
+					CreateCoin(Vector2D(tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock()->GetPosition().x + 3, tileMap->GetTileAt(Mario->centralX_position, Mario->head_position)->GetBlock()->GetPosition().y - 32));
+				}
+			}
+		}
+	}
+
+	if (tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position) != nullptr)
+	{
+		if (tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock() != nullptr)
+		{
+			if (tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock()->GetBlockType() == Blocks::BlockType::BLOCK_LUCKY)
+			{
+				if (tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock()->IsAvailable())
+				{
+					// Collision, spawn coin and set question mark block to unavailable
+					tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock()->SetAvailable(false);
+					CreateCoin(Vector2D(tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock()->GetPosition().x + 3, tileMap->GetTileAt(Luigi->centralX_position, Luigi->head_position)->GetBlock()->GetPosition().y - 32));
+				}
+			}
+		}
+	}
+}
+
+void GameScreenLevel1::OnMapCheck(float deltaTime, SDL_Event e)
+{
+	if (m_level_map->GetTileAt(Mario->foot_position + 1.0f, Mario->centralX_position) == 4)
+	{
+		Mario->Dead(deltaTime);
+		Mario->lifeCount = Mario->lifeCount - 1;
+	}
+
+	if (m_level_map->GetTileAt(Luigi->foot_position + 1.0f, Luigi->centralX_position) == 4)
+	{
+		Luigi->Dead(deltaTime);
+		Mario->lifeCount = Mario->lifeCount - 1;
+	}
+}
+
+void GameScreenLevel1::CheckWin()
+{
+	if (m_level_map->GetTileAt(Mario->centralYPositionInGrid, Mario->centralX_position) == 3)
+	{
+		SortScore();
+		screen = SCREEN_LEVEL2;
+	}
+
+	if (m_level_map->GetTileAt(Luigi->centralYPositionInGrid, Luigi->centralX_position) == 3)
+	{
+		SortScore();
+		screen = SCREEN_LEVEL2;
 	}
 }
 

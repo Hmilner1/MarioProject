@@ -1,6 +1,6 @@
 #include "Koopa.h"
 
-Koopa::Koopa(SDL_Renderer* renderer, string imagePath, LevelMap* map,Vector2D start_position, FACING start_facing, float movement_speed) : Character(renderer,imagePath, start_position, map)
+Koopa::Koopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed) : Character(renderer, imagePath, start_position, map)
 {
 	m_facing_direction = start_facing;
 	m_movement_speed = movement_speed;
@@ -18,7 +18,7 @@ Koopa::~Koopa()
 	delete stompSound;
 }
 
-void Koopa::Render()
+void Koopa::Render(int camX, int camY)
 {
 	//renders the correct sprite from the sheet 
 	int left = 0.0f;
@@ -30,17 +30,36 @@ void Koopa::Render()
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portion_of_sprite, 0.0, nullptr, SDL_FLIP_NONE);
 	}
 	else
 		{
-		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portion_of_sprite, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
 	}
 }
 
 void Koopa::Update(float deltaTime, SDL_Event e)
 {
 	Character::Update(deltaTime, e);
+	// Sideway collision
+	if (m_facing_direction == FACING::FACING_RIGHT)
+	{
+		// If the right side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, rightSidePositionInGrid) == 1 || m_current_level_map->GetTileAt(centralYPositionInGrid, rightSidePositionInGrid) == 2)
+		{
+			Turn();
+		}
+
+	}
+	else if (m_facing_direction == FACING::FACING_LEFT)
+	{
+		// If the left side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, leftSidePositionInGrid) == 1 || m_current_level_map->GetTileAt(centralYPositionInGrid, leftSidePositionInGrid) == 2)
+		{
+			Turn();
+		}
+
+	}
 	//if the koopa isnt damaged then move depending on the facing direction 
 	if (!m_injured)
 	{

@@ -59,3 +59,16 @@ void Texture2D::Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip fl
 {
 	SDL_RenderCopyEx(m_renderer, m_texture, &src_rect, &src_dest, angle, nullptr, flip);
 }
+
+void Texture2D::Render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+	SDL_Rect renderLocation = { x, y, m_width, m_height };
+
+	if (clip != NULL)
+	{
+		m_width = clip->w;
+		m_height = clip->h;
+	}
+
+	SDL_RenderCopyEx(m_renderer, m_texture, clip, &renderLocation, angle, center, flip);
+}

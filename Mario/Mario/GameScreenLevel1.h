@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
+#include "TileMap.h"
 #include <SDL_TTF.h>
 #include <vector>
 #include <SDL_mixer.h>
@@ -46,7 +47,8 @@ private:
 	//sounds
 	Mix_Chunk* coinSound = Mix_LoadWAV("Music/Coin.mp3");
 	Mix_Chunk* stompSound = Mix_LoadWAV("Music/Stomp.wav");
-	
+	TileMap* tileMap;
+
 	//lvl set up and updates
 	bool SetUpLevel();
 	void SetLevelMap();
@@ -57,13 +59,20 @@ private:
 	void UpdateCoin(float deltaTime, SDL_Event e);
 	void CreateGoomba(Vector2D position, FACING direction, float speed);
 	void UpdateGoomba(float deltaTime, SDL_Event e);
+	void SortScore();
+	void HandleViewportCollision();
+	void UpdateCameraPosition();
+	void SetUpTileMap();
+	void UpdateLuckyBlock(float deltaTime, SDL_Event e);
+	void CheckWin();
+	void OnMapCheck(float deltaTime, SDL_Event e);
 
 	//pow block and respawn
 	bool m_screenshake;
 	float m_shake_time;
 	float m_wobble;
 	float m_background_yPos;
-	float m_respawn_time = 10.0f;
-	float movement_time = 200.0f;
+	int highScore;
+	float mLastCamXPos;
 };
 #endif

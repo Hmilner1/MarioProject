@@ -19,16 +19,35 @@ Goomba::~Goomba()
 	delete stompSound;
 }
 
-void Goomba::Render()
+void Goomba::Render(int camX, int camY)
 {
 	//pushes the correct sprite to the renderer
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w,m_single_sprite_h };
-	m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
+	m_texture->Render(m_position.x - camX, m_position.y - camY, &portion_of_sprite, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void Goomba::Update(float deltaTime, SDL_Event e)
 {
+	if (m_facing_direction == FACING::FACING_RIGHT)
+	{
+		// If the right side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, rightSidePositionInGrid) == 1 || m_current_level_map->GetTileAt(centralYPositionInGrid, rightSidePositionInGrid) == 2)
+		{
+			Turn();
+		}
+
+	}
+	else if (m_facing_direction == FACING::FACING_LEFT)
+	{
+		// If the left side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, leftSidePositionInGrid) == 1 || m_current_level_map->GetTileAt(centralYPositionInGrid, leftSidePositionInGrid) == 2)
+		{
+			Turn();
+		}
+
+	}
+
 	//sets an animation delay between the sprites
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)

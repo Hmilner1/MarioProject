@@ -8,7 +8,7 @@ class Goomba : public Character
 public:
 	Goomba(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed);
 	~Goomba();
-	void Render() override;
+	void Render(int camX, int camY) override;
 	void Update(float deltaTime, SDL_Event e) override;
 	void TakeDamage();
 	void Turn();

@@ -18,8 +18,10 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 
 	m_current_level_map = map;
 	m_alive = true;
+	canMove = true;
 	m_collision_radius = 15.0f;
 }
+
 Character::~Character()
 {
 	delete m_texture;
@@ -30,24 +32,44 @@ Character::~Character()
 	delete jumpSound;
 }
 
-void Character::Render()
+void Character::Render(int camX, int camY)
 {
-	m_texture->Render(Vector2D(m_position), SDL_FLIP_NONE);
-	if (m_facing_direction == FACING_RIGHT)
+	// Get the position of the spritesheet
+	int left = mSingleSpriteWidth * (frame - 1);
+
+	// Set Rect
+	SDL_Rect portionOfSpritesheet = { left, 0, mSingleSpriteWidth, mSingleSpriteHeight };
+
+	// Draw
+	if (m_facing_direction == FACING::FACING_RIGHT)
 	{
-		m_texture->Render(m_position, SDL_FLIP_NONE);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portionOfSpritesheet, 0.0, nullptr, SDL_FLIP_NONE);
+
 	}
 	else
 	{
-			m_texture->Render(m_position, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(m_position.x - camX, m_position.y - camY, &portionOfSpritesheet, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
 	}
 }
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
+	Vector2D old_pos = GetPosition();
+	Vector2D new_pos = old_pos;
+	canMove = true;
+
+	if (m_position.y >= 438)
+	{
+		m_alive = false;
+	}
+
 	//the players central X and Feet posititon 
 	centralX_position = (int)(m_position.x + (m_single_sprite_w * 0.5)) / TILE_WIDTH;
+	centralYPositionInGrid = (int)(m_position.y + (m_single_sprite_h * 0.5)) / TILE_HEIGHT;
 	foot_position = (int)(m_position.y + m_single_sprite_h) / TILE_HEIGHT;
+	head_position = (int)(m_position.y) / TILE_HEIGHT;
+	rightSidePositionInGrid = (int)(m_position.x + m_single_sprite_w) / TILE_WIDTH ;
+	leftSidePositionInGrid = (int)m_position.x / TILE_WIDTH;
 	//if player isnt on a platform add gravity else they can jump
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
@@ -66,19 +88,60 @@ void Character::Update(float deltaTime, SDL_Event e)
 			m_jumping = false;
 	}
 	//allows player to move left and right 
-	if (m_moving_left)
+	if (canMove)
 	{
-		MoveLeft(deltaTime);
+		if (m_moving_left)
+		{
+			MoveLeft(deltaTime);
+		}
+		else if (m_moving_right)
+		{
+			MoveRight(deltaTime);
+		}
 	}
-	else if (m_moving_right)
+
+
+	// Check if the head bumps into a block
+	if (m_current_level_map->GetTileAt(head_position, centralX_position) == 1)
 	{
-		MoveRight(deltaTime);
+		// If the tile is solid, push the player down
+		if (m_jumping)
+			//AddGravity(deltaTime);
+			CancelJump();
 	}
+
+	// Sideway collision
+	if (m_facing_direction == FACING::FACING_RIGHT)
+	{
+		// If the right side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, rightSidePositionInGrid) == 1)
+		{
+			canMove = false;
+			m_position = Vector2D(old_pos.x - 1, old_pos.y);
+		}
+		
+	}
+	else if (m_facing_direction == FACING::FACING_LEFT)
+	{
+		// If the left side collides with a solid tile, stop movement
+		if (m_current_level_map->GetTileAt(centralYPositionInGrid, leftSidePositionInGrid) == 1)
+		{
+			canMove = false;
+			m_position = Vector2D(old_pos.x + 1, old_pos.y);
+		}
+		
+	}
+	
 }
 
 Vector2D Character::GetPosition()
 {
 	return m_position;
+}
+
+void Character::SetPosition(Vector2D newPosition)
+{
+	m_position = newPosition;
 }
 
 void Character::MoveLeft(float deltaTime)

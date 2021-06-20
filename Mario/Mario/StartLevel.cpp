@@ -21,7 +21,7 @@ void StartLevel::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* text = TTF_RenderText_Solid(Retro, "Enter To Play", { 255,255,255 });
 	SDL_Texture* textTex = SDL_CreateTextureFromSurface(m_renderer, text);
-	textRect.x = 415.0f;
+	textRect.x = 240.0f;
 	textRect.y = 200.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, textTex, NULL, &textRect);
@@ -32,7 +32,7 @@ void StartLevel::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* Tut = TTF_RenderText_Solid(Retro, "Q For Controls", { 255,255,255 });
 	SDL_Texture* TutTex = SDL_CreateTextureFromSurface(m_renderer, Tut);
-	textRect.x = 415.0f;
+	textRect.x = 240.0f;
 	textRect.y = 250.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, TutTex, NULL, &textRect);
@@ -43,7 +43,7 @@ void StartLevel::Render()
 	Retro = TTF_OpenFont("Retro.ttf", 20);
 	SDL_Surface* Exit = TTF_RenderText_Solid(Retro, "Escape To Exit", { 255,255,255 });
 	SDL_Texture* ExitTex = SDL_CreateTextureFromSurface(m_renderer, Exit);
-	textRect.x = 415.0f;
+	textRect.x = 240.0f;
 	textRect.y = 300.0f;
 	TTF_CloseFont(Retro);
 	SDL_RenderCopy(m_renderer, ExitTex, NULL, &textRect);
@@ -61,6 +61,9 @@ void StartLevel::Update(float deltaTime, SDL_Event e)
 		{
 		case SDLK_RETURN:
 			screen = SCREEN_LEVEL1;
+			break;
+		case SDLK_q:
+			screen = SCREEN_CONTROLS;
 			break;
 		default:
 			break;

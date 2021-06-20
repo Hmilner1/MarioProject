@@ -9,17 +9,17 @@ public:
 
 	PowBlock(SDL_Renderer* renderer, LevelMap* map);
 	~PowBlock();
-	void Render();
+	void Render(int camX, int camY);
 	Rect2D GetCollisionBox()
 	{
 		return Rect2D(m_position.x, m_position.y, m_texture->GetWidth() /2 , m_texture->GetHeight());
 	}
 	void TakeHit();
 	bool IsAvailable() { return m_num_hits_left > 0; }
+	Vector2D m_position;
 
 private:
 	SDL_Renderer* m_renderer;
-	Vector2D m_position;
 	Texture2D* m_texture;
 	LevelMap* m_level_map;
 

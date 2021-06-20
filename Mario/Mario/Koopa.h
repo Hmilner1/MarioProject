@@ -3,14 +3,14 @@
 #define _KOOPA_
 #include "Character.h"
 #include <SDL_mixer.h>
-class Koopa: public Character
+class Koopa : public Character
 {
 public: 
 	Koopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed);
 	~Koopa();
 	void TakeDamage();
 	void Jump();
-	void Render() override;
+	void Render(int camX, int camY) override;
 	void Update(float deltaTime, SDL_Event e) override;
 	bool GetInjured();
 	void Turn();

@@ -1,8 +1,8 @@
 #pragma once
-#define SCREEN_WIDTH 1024	
+#define SCREEN_WIDTH 672
 #define SCREEN_HEIGHT 416
 #define MAP_HEIGHT 13
-#define MAP_WIDTH 38
+#define MAP_WIDTH 206
 #define TILE_HEIGHT 32
 #define TILE_WIDTH 32
 #define MOVEMENTSPEED 85.0f
@@ -16,5 +16,3 @@
 #define INJURED_TIME 5.0f
 #define ANIMATION_DELAY 0.15f
 #define CHARANIMATION_DELAY 0.10f
-#define RESPAWN 10.0f
-#define URESPAWN 3.0f
